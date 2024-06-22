@@ -1,4 +1,5 @@
 import React from 'react'
+import './Navbar.css'
 
 const Navbar = () => {
   return (
@@ -11,7 +12,7 @@ const Navbar = () => {
         </div>
 
         <div>
-        <ul className="flex items-center gap-6 ">
+        <ul className="flex items-center gap-6  ">
             <li>
               About
             </li>

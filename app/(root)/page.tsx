@@ -1,43 +1,61 @@
-'use client'
-import React from "react";
+'use client';
+import React from 'react';
 import "./Home.css";
-import Events from "../components/Events/Events";
-import { motion } from "framer-motion";
-
+import Events from '../components/Events/Events';
+import { motion } from 'framer-motion';
+import Showlist from '../components/Showlist';
+import AboutUs from '../components/AboutUs';
+import Facts from '../components/Facts';
+import HowItWorks from '../components/HowitWorks';
+import Reviews from '../components/Reviews';
+import Footer from '../components/Footer';
 
 const Home = () => {
   return (
     <div className="home container-full">
       <div className="section section1">
-        <motion.div
-        initial={{opacity:0,y:100}}
-        animate={{opacity:1,y:0}}
-        transition={{duration:2}}
-         className="  w-full h-[100vh] place-content-center text-center );">
-          <div className="text-white text-7xl font-bold leading-[100px]">
-            Experience the Magic of <br /> Live Performances
+        <div className="w-full h-[100vh] place-content-center text-center relative">
+          <div className="absolute inset-0 bg-black/75 sm:bg-transparent sm:from-black/95 sm:to-black/25 ltr:sm:bg-gradient-to-r rtl:sm:bg-gradient-to-l h-[120vh]"></div>
+          <div className="absolute h-[120vh] w-full inset-0 bg-black opacity-50"></div>
+          <div className="relative mx-auto max-w-screen-xl px-4 py-32 sm:px-6 lg:px-8 flex h-full items-center justify-center">
+            <div className="relative w-full text-center text-white">
+              <motion.h1
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1 }}
+                className="mb-6 text-white text-4xl font-bold md:text-6xl"
+              >
+                The Website You Want Without The Dev Time.
+              </motion.h1>
+              <motion.p
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.1 }}
+                className="mx-auto mb-8 text-white max-w-[528px] text-xl"
+              >
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit ut aliquam,
+                purus sit amet luctus venenatis, lectus
+              </motion.p>
+              <motion.a
+                initial={{ y: 100, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                transition={{ duration: 1, delay: 0.12 }}
+                href="#"
+                className="inline-block rounded-full bg-[#FFD700] px-8 py-4 text-center font-bold text-black transition hover:border-black hover:bg-white"
+              >
+                Get Started
+              </motion.a>
+            </div>
           </div>
-
-          <div className="mt-10">
-            <button
-              className="text-white text-2xl px-3 py-2 border-2 border-white rounded-md hover:bg-white 
-            hover:text-transparent
-             
-             
-            
-             transition-all duration-300"
-            >
-              Explore Events
-            </button>
-
-            {/* <button className="text-2xl bg-white mix-blend-screen px-3 py-3 border-2 border-white rounded-md font-semibold hover:bg-transparent hover:text-white transition-all duration-200">
-              Explore Events
-            </button> */}
-          </div>
-        </motion.div>
+        </div>
       </div>
       <div className="section section2">
-        <Events />
+        <Showlist />
+        <AboutUs />
+        <Facts />
+        <HowItWorks />
+        <Reviews />
+        <Footer />
       </div>
     </div>
   );
