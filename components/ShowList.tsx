@@ -14,8 +14,8 @@ const Showlist = () => {
     }
   }, [isInView]);
   return (
-    <motion.div className="my-20" id="shows" ref={ref}>
-      <h1 className="text-[#FFD700] text-center text-5xl font-bold   my-8  pt-[200px]">
+    <motion.div className="mb-20" id="Shows" ref={ref}>
+      <h1 className="text-[#FFD700] text-center text-5xl font-bold   mb-8  pt-[40px]">
         Upcoming shows
       </h1>
 

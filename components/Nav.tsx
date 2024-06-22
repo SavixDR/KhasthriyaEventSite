@@ -11,7 +11,7 @@ function Nav() {
           <div className="text-white font-bold p-8 mx-2 md:flex md:items-center md:gap-12">
             LOGO
           </div>
-          <div className="justify-right  items-center hidden md:block  rounded-full p-4 bg-white bg-opacity-20 backdrop-blur-lg  drop-shadow-lg ">
+          <div className="items-right hidden md:block  rounded-full p-4 bg-white bg-opacity-20 backdrop-blur-lg  drop-shadow-lg ">
             <nav aria-label="Global">
               <ul className="flex items-center gap-6 text-sm px-5">
                 <li>

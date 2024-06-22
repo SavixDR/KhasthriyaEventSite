@@ -4,6 +4,7 @@ import header from "../public/header.png";
 const Header = () => {
   return (
     <section
+    id="Home"
       className="relative bg-cover bg-center bg-no-repeat h-screen bg-slate-800"
       style={{ backgroundImage: `url(/header.jpg)` }}
     >

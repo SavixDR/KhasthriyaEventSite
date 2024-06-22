@@ -1,5 +1,6 @@
 import React from "react";
 import { Link as ScrollLink } from "react-scroll/modules";
+import  Link from 'next/link'
 
 const Navbar = () => {
   return (
@@ -8,7 +9,8 @@ const Navbar = () => {
 
       <div>
         <ul className="flex items-center gap-6 ">
-          <li>About</li>
+
+          <li className="hover:text-lg hover:cursor-pointer duration-300" ><Link href="#Home" >Home</Link></li>
           {/* <ScrollLink
               to="About"
               spy={true}
@@ -26,11 +28,11 @@ const Navbar = () => {
             </ScrollLink>
           </li> */}
 
-          <li>Careers</li>
+          <li className="hover:text-lg hover:cursor-pointer duration-300"><Link href="#Shows">Shows</Link></li>
 
-          <li>Projects</li>
+          <li className="hover:text-lg hover:cursor-pointer duration-300"><Link href="#About">About</Link></li>
 
-          <li>Blog</li>
+          <li className="hover:text-lg hover:cursor-pointer duration-300"><Link href="#Reviews">Reviews</Link></li>
         </ul>
       </div>
 
