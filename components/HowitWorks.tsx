@@ -2,7 +2,7 @@
 import React from "react";
 import {facts} from '../constants'
 
-import {fadeIn, staggerContainer} from '../../utils/motion'
+import {fadeIn, staggerContainer} from '../utils/motion'
 import { motion } from "framer-motion";
 
 

@@ -2,7 +2,7 @@
 import React from 'react';
 import './Event.css';
 import { useParams } from 'next/navigation';
-import { events } from '../../../../events'; 
+import { events } from '../../../../../events'; 
 import { motion } from 'framer-motion';
 
 

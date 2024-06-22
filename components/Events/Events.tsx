@@ -1,6 +1,6 @@
 'use client'
 import React from "react";
-import { events } from '../../../events';
+import {events} from '../../events'
 import Event from "../Event/Event";
 import { motion } from "framer-motion";
 
