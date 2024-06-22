@@ -26,7 +26,7 @@ const Home = () => {
                 transition={{ duration: 1 }}
                 className="mb-6 text-white text-4xl font-bold md:text-6xl"
               >
-                The Website You Want Without The Dev Time.
+                The Website You Want Without The Dev bye bye.
               </motion.h1>
               <motion.p
                 initial={{ y: 100, opacity: 0 }}
