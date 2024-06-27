@@ -32,7 +32,7 @@ const Header = () => {
               animate={{ y: 0, opacity: 1 }}
               transition={{ duration: 1, delay: 0.12 }}
               href="#"
-              className="inline-block rounded-full bg-[#FFD700] px-8 py-4 text-center font-bold text-black transition hover:border-black hover:bg-white"
+              className="inline-block rounded-full bg-[#FFD700] px-8 py-4 text-center font-bold text-black transition hover:border-black hover:bg-white" 
             >
               Get Started
             </motion.a>

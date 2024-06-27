@@ -3,15 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "set PORT=3001 & next dev",
+    "dev": "set PORT=3000 & next dev",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
   "dependencies": {
     "@auth/core": "^0.34.1",
+    "@auth/supabase-adapter": "^1.4.1",
+    "@supabase/supabase-js": "^2.44.0",
     "framer-motion": "^11.2.11",
     "next": "14.2.4",
+    "next-auth": "^4.24.7",
     "react": "^18",
     "react-dom": "^18"
   },

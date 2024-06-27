@@ -1,11 +1,12 @@
 import React from 'react'
 import './Navbar.css'
 import Link from 'next/link'
+import Login from '../Login'
 
 
 const Navbar = () => {
   return (
-    <div className=' w-full flex text-md justify-around py-4  items-center text-semibold fixed z-10 text-white bg-[#1a1a1a] bg-opacity-20 '>
+    <div className='w-full flex text-md justify-around py-4  items-center text-semibold fixed z-10 text-white bg-[#1a1a1a] bg-opacity-20 '>
       <div>
         logo
       </div>
@@ -31,9 +32,10 @@ const Navbar = () => {
         </ul>
       </div>
 
-      <div>
+      {/* <div>
         <button className='px-5 py-2 border-2 border-white rounded-md'>Login</button>   
-      </div>
+      </div> */}
+      <Login />
 
     </div>
   )

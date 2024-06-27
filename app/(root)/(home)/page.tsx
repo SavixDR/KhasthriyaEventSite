@@ -1,6 +1,7 @@
 'use client';
 import React from 'react';
 import "./Home.css";
+import Navbar from "@/components/Navbar/Navbar";
 
 import { motion } from 'framer-motion';
 import Showlist from '@/components/Showlist';
@@ -10,12 +11,15 @@ import HowItWorks from '@/components/HowitWorks';
 import Reviews from '@/components/Reviews';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
+import Login from '@/components/Login';
 
 
 const Home = () => {
   return (
-    <div className="home container-full scroll-smooth">
+    <div className="home scroll-smooth">
+      <Navbar />
       <Header />
+      <Login />
       <div className="section section2">
         <Showlist />
         <AboutUs />
