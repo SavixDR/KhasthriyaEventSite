@@ -7,6 +7,8 @@ export const events = [
     // "https://images.hdqwalls.com/wallpapers/alan-walker-faded-8k-5e.jpg",
   },
 
+
+  
   {
     eventId: "2",
     title: "Taylor Swift Eras Tour",
@@ -15,6 +17,7 @@ export const events = [
     //"https://hips.hearstapps.com/hmg-prod/images/gettyimages-1497327393-649311db5f02a.jpg",
   },
 
+
   {
     eventId: "3",
     title: "Queen's Rhapsody",
@@ -22,6 +25,8 @@ export const events = [
     poster: "/sarith.png",
     //"https://w.forfun.com/fetch/6a/6a306ef72fb44e4ff016e86478aeb394.jpeg",
   },
+
+
 
   {
     eventId: "4",
@@ -44,3 +49,4 @@ export const events = [
   //     "poster":"https://wallpapercave.com/wp/wp3789188.jpg"
   // }
 ];
+
