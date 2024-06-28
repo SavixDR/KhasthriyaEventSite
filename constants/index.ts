@@ -1,3 +1,4 @@
+
 export const facts =[
     {
         title:" Sign up for account",
@@ -35,3 +36,5 @@ export const artists =[
    },
   
 ]
+
+
