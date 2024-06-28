@@ -10,6 +10,7 @@ import HowItWorks from "@/components/HowitWorks";
 import Reviews from "@/components/Reviews";
 import Footer from "@/components/Footer";
 import { VideoCarousel } from "@/components/VideoCarousel";
+import ComingShow from "@/components/ComingShow";
 
 const Home = () => {
   return (
@@ -51,9 +52,12 @@ const Home = () => {
         </div>
       </div>
       <div className="section section2">
+        <ComingShow />
+        {/* <LoginPage /> */}
+        <VideoCarousel />
         <Showlist />
         <AboutUs />
-        <VideoCarousel />
+
         <Facts />
         <HowItWorks />
         <Reviews />
