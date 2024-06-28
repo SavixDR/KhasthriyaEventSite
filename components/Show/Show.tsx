@@ -18,7 +18,7 @@ const Show = ({ event }: ShowProps) => {
 
   return (
     <div className="show rounded-lg relative h-[500px] w-full  overflow-hidden  ">
-      <div className="backimage rounded-lg h-full w-full    ">
+      <div className="backimage rounded-lg h-full w-full ">
       <Link href={`/events/${eventId}`}>
         <img
           className="  rounded-lg w-full object-cover h-full hover:scale-110 duration-500 hover:opacity-40  "
