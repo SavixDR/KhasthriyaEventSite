@@ -50,6 +50,8 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+
       <div className="section section2">
         <Showlist />
         <AboutUs />

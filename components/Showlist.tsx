@@ -7,7 +7,7 @@ import Show from "./Show/Show";
 const Showlist = () => {
 
   return (
-    <div className="my-20" id="shows" >
+    <div className="my-20" id="Shows" >
       <h1 className="text-[#FFD700] text-center text-5xl font-bold   my-8  pt-[200px]">
         Upcoming shows
       </h1>
