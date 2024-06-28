@@ -9,6 +9,7 @@ import Facts from '@/components/Facts';
 import HowItWorks from '@/components/HowitWorks';
 import Reviews from '@/components/Reviews';
 import Footer from '@/components/Footer';
+import CheckoutForm from '@/components/CheckoutForm';
 
 
 const Home = () => {
@@ -57,6 +58,8 @@ const Home = () => {
         <HowItWorks />
         <Reviews />
         <Footer />
+      
+
       </div>
     </div>
   );
