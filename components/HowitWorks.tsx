@@ -1,13 +1,9 @@
-
 import { delay, motion, useAnimation, useInView } from "framer-motion";
+import { useEffect, useRef } from "react";
 
 const HowItWorks = () => {
   const ref = useRef(null);
   const isInView = useInView(ref);
-
-
-
-
 
   const mainControls = useAnimation();
 
@@ -61,10 +57,7 @@ const HowItWorks = () => {
             </div>
             <div className="flex flex-col items-start gap-2.5">
               <h5 className="text-base font-bold md:text-xl  ">
-
                 <span className="text-white group-hover:text-black">
-
-
                   Sign up for account
                 </span>
               </h5>
@@ -93,11 +86,7 @@ const HowItWorks = () => {
               />
             </div>
             <div className="flex flex-col items-start gap-2.5">
-
               <h5 className="text-base font-bold md:text-xl text-white group-hover:text-black">
-
-            
-
                 Select your favourite show
               </h5>
               <p className="text-[#636262] group-hover:text-black">
@@ -125,11 +114,7 @@ const HowItWorks = () => {
               />
             </div>
             <div className="flex flex-col items-start gap-2.5">
-
               <h5 className="text-base font-bold md:text-xl text-white group-hover:text-black">
-
-
-
                 Book your tickets
               </h5>
               <p className="text-[#636262] group-hover:text-black">
