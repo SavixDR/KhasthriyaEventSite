@@ -12,6 +12,7 @@ import Reviews from '@/components/Reviews';
 import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Login from '@/components/Login';
+import CheckoutForm from '@/components/CheckoutForm';
 
 
 const Home = () => {
@@ -27,6 +28,8 @@ const Home = () => {
         <HowItWorks />
         <Reviews />
         <Footer />
+      
+
       </div>
     </div>
   );
