@@ -36,11 +36,11 @@ export const artists =[
    },
    {
     name:"Adithya weliwatte",
-    imageUrl:"https://yt3.googleusercontent.com/Y06u2ew8QEl0PqAP7AzQBFS0sl-vfr2j8XiBMBYm0EwMHco0dYJaFELn2Rk6JNDUsRIBsbR1BA=s900-c-k-c0x00ffffff-no-rj"
+    imgUrl:"https://yt3.googleusercontent.com/Y06u2ew8QEl0PqAP7AzQBFS0sl-vfr2j8XiBMBYm0EwMHco0dYJaFELn2Rk6JNDUsRIBsbR1BA=s900-c-k-c0x00ffffff-no-rj"
    },
    {
     name:"Sangeeth Wijesooriya",
-    imgeUrl:"https://cdns-images.dzcdn.net/images/artist/f3967c484a2bbb9bf54d9e40ad7a4939/500x500.jpg"
+    imgUrl:"https://cdns-images.dzcdn.net/images/artist/f3967c484a2bbb9bf54d9e40ad7a4939/500x500.jpg"
    }
   
 ]

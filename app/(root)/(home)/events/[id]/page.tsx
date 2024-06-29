@@ -79,7 +79,7 @@ const Booking = () => {
         </motion.div>
 
         <div className="w-full -mt-[200px] h-[1000px]">
-          <div className="px-36 mt-20 bg-black">
+          <div className="px-10 mt-20 bg-black">
             <h1 className="text-white text-4xl font-semibold text-center mb-10  md:mx-10">
               Featured Artists
             </h1>
@@ -99,7 +99,7 @@ const Booking = () => {
             </div>
           </div>
 
-          <div className="md:px-20 mt-20 lg:px-10 justify-center items-center lg:items-start flex flex-col lg:flex-row bg-black">
+          <div className="md:px-20 pt-20 lg:px-10 justify-center items-center lg:items-start flex flex-col lg:flex-row bg-black">
             <div className="mx-10 lg:w-1/2 my-20 flex flex-col items-center  ">
               <h1 className="text-white text-4xl font-semibold text-center lg:text-left mb-10">
                 Mark your calendar for
@@ -131,7 +131,7 @@ const Booking = () => {
               </h1>
 
               <div className="bg-[#0e0e0e] w-3/4  h-full rounded-xl flex flex-col justify-center ">
-                <div className="px-20 py-10">
+                <div className="md:px-10 py-10">
                   <div className="flex justify-between border-b border-neutral-700 px-10 py-5">
                     <p className="text-white text-xl">General</p>
                     <p className="text-white text-xl">2500 LKR</p>
@@ -148,7 +148,7 @@ const Booking = () => {
                   </div>
 
                   <a
-                    className="group relative  flex flex-col items-center border-2 rounded-lg border-[#FFD700] px-10 py-2 mt-10 focus:outline-none focus:ring "
+                    className="group mx-10 relative  flex flex-col items-center border-2 rounded-lg border-[#FFD700] px-10 py-2 mt-10 focus:outline-none focus:ring "
                     href="#"
                   >
                     <span className="absolute inset-y-0 left-0 w-[2px] bg-[#FFD700] transition-all group-hover:w-full "></span>
