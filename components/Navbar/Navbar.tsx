@@ -1,6 +1,8 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
+
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false); // Initialize with false
@@ -116,6 +118,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
       {/* Hamburger Menu */}
       <div
         className={`md:hidden fixed top-0 left-0 h-full w-64 bg-black z-20 transition-transform duration-300 ${
@@ -160,4 +163,5 @@ const Navbar = () => {
     </header>
   );
 };
+
 export default Navbar;

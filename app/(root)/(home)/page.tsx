@@ -2,6 +2,10 @@
 import React from "react";
 import "./Home.css";
 
+
+
+
+
 import { motion } from "framer-motion";
 import Showlist from "@/components/Showlist";
 import AboutUs from "@/components/AboutUs";
@@ -11,6 +15,7 @@ import Reviews from "@/components/Reviews";
 import Footer from "@/components/Footer";
 import { VideoCarousel } from "@/components/VideoCarousel";
 import ComingShow from "@/components/ComingShow";
+
 
 const Home = () => {
   return (
@@ -64,6 +69,8 @@ const Home = () => {
         <HowItWorks />
         <Reviews />
         <Footer />
+      
+
       </div>
     </div>
   );
