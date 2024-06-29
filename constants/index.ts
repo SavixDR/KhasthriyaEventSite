@@ -1,3 +1,4 @@
+
 export const facts =[
     {
         title:" Sign up for account",
@@ -33,5 +34,15 @@ export const artists =[
    { name:"Kanchana Anuradhi",
     imgUrl:"https://i.scdn.co/image/ab6761610000e5eb7d5aa798103bfb8562427274"
    },
+   {
+    name:"Adithya weliwatte",
+    imgUrl:"https://yt3.googleusercontent.com/Y06u2ew8QEl0PqAP7AzQBFS0sl-vfr2j8XiBMBYm0EwMHco0dYJaFELn2Rk6JNDUsRIBsbR1BA=s900-c-k-c0x00ffffff-no-rj"
+   },
+   {
+    name:"Sangeeth Wijesooriya",
+    imgUrl:"https://cdns-images.dzcdn.net/images/artist/f3967c484a2bbb9bf54d9e40ad7a4939/500x500.jpg"
+   }
   
 ]
+
+

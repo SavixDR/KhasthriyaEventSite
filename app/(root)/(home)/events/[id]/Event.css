@@ -1,63 +1,83 @@
-
-
-.wrapper{
+/* General wrapper style */
+.wrapper {
     height: 100vh;
-    overflow-y: auto;
+    overflow-y: scroll; /* Enable scrolling */
     overflow-x: hidden;
     perspective: 10px;
-
 }
 
-.wallpaper{
+/* Hide scrollbar for WebKit browsers (Chrome, Safari) */
+.wrapper::-webkit-scrollbar {
+    display: none; /* Hides the scrollbar */
+}
+
+/* Hide scrollbar for Firefox */
+.wrapper {
+    scrollbar-width: none; /* Hides the scrollbar */
+}
+
+/* For other browsers (with a wrapping technique) */
+.hidden-scrollbar-container {
+    height: 100vh;
+    overflow: hidden; /* Prevent outer container from showing scrollbar */
+}
+
+.hidden-scrollbar-container .wrapper {
+    height: 100%;
+    overflow-y: scroll; /* Enable scrolling within the inner container */
+    overflow-x: hidden;
+    padding-right: 17px; /* Adjust to the scrollbar width to prevent content shifting */
+    box-sizing: content-box;
+}
+
+/* Your existing styles for .wallpaper, .wallpaperimg, etc. remain the same */
+.wallpaper {
     position: relative;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100%;
-   transform-style: preserve-3d;
-   z-index: -1;
-   animation: blacked;
-   animation-timeline: scroll();
-
+    transform-style: preserve-3d;
+    z-index: -1;
+    animation: blacked;
+    animation-timeline: scroll();
 }
 
-
-.wallpaperimg{
+.wallpaperimg {
     z-index: -1;
-    transform: translateZ(-20px)scale(3);
+    transform: translateZ(-20px) scale(3);
     animation: scaleup;
     animation-timeline: scroll();
 }
 
-
-@keyframes scaleup{
-    to{scale: 1.5;
+@keyframes scaleup {
+    to {
+        scale: 1.5;
     }
 }
 
-@keyframes blacked{
-    to{background-color: rgba(0,0,0,0.8);}
+@keyframes blacked {
+    to {
+        background-color: rgba(0, 0, 0, 0.8);
+    }
 }
-
 
 table {
     width: 100%;
     border-collapse: collapse;
-  }
-  th, td {
+}
+
+th, td {
     border-bottom: 2px solid #dddddd31;
-  
     text-align: center;
-  }
-  th {
-   color: #FFD700;
-  }
+}
 
+th {
+    color: #FFD700;
+}
 
-  @media screen and (min-width: 1024px) {
-    /* Styles for screens with a minimum width of 768px */
-    th,td{
+@media screen and (min-width: 1024px) {
+    th, td {
         text-align: left;
     }
-  }
-  
+}

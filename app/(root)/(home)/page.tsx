@@ -1,5 +1,5 @@
-'use client';
-import React from 'react';
+"use client";
+import React from "react";
 import "./Home.css";
 import Navbar from "@/components/Navbar/Navbar";
 
@@ -13,7 +13,8 @@ import Footer from '@/components/Footer';
 import Header from '@/components/Header';
 import Login from '@/components/Login';
 import CheckoutForm from '@/components/CheckoutForm';
-
+import { VideoCarousel } from "@/components/VideoCarousel";
+import ComingShow from "@/components/ComingShow";
 
 const Home = () => {
   return (
@@ -22,8 +23,12 @@ const Home = () => {
       <Header />
       <Login />
       <div className="section section2">
+        <ComingShow />
+        {/* <LoginPage /> */}
+        <VideoCarousel />
         <Showlist />
         <AboutUs />
+
         <Facts />
         <HowItWorks />
         <Reviews />
