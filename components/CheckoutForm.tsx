@@ -56,7 +56,7 @@ const CheckoutForm = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#1a1a1a] flex justify-center items-center py-10 px-4">
+    <div className="rounded-md p-2 bg-[#434242] flex justify-center items-center ">
       <div className="w-full max-w-4xl bg-[#262626] rounded-xl shadow-2xl p-6">
         <h1 className="text-3xl mb-6 text-white text-center">Alan Walker: World Tour</h1>
 

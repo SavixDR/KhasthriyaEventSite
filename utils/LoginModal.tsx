@@ -37,7 +37,7 @@ const LoginModal = ({
             className='fixed inset-0 bg-black opacity-50' 
             onClick={handleClose}
           />
-          <div className='bg-white rounded-lg shadow-lg p-6 relative z-10 w-full max-w-md md:max-w-lg lg:max-w-xl mx-4 sm:mx-6 md:mx-8 lg:mx-10'>
+          <div className='bg-white rounded-lg shadow-lg  relative z-10 mx-8'>
             {children}
           </div>
         </div>
