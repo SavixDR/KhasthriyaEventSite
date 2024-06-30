@@ -10,8 +10,6 @@ import {
 	faAward,
 	faCalendar,
 	faLocationDot,
-	faMinus,
-	faPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import Countdown from "../../../../../components/Countdown/Countdown";
 import LoginModal from "@/utils/LoginModal";
@@ -111,7 +109,7 @@ const Booking = () => {
 
               <Countdown date="July 30 2024 00:04:30" />
 
-              <div className="max-w-[500px] my-10 md:px-10 lg:px-10">
+              <div className="max-w-[500px] mt-10 md:px-10 lg:px-10">
                 {" "}
                 <p className="text-white text-justify">
                   HASKY ENTERTAINMENT proudly presents "SARAMA LIVE IN CONCERT"
@@ -134,8 +132,8 @@ const Booking = () => {
                 Ticket Prices
               </h1>
 
-							<div className="bg-[#0e0e0e] w-full h-full rounded-xl flex flex-col justify-center ">
-								<div className="px-20">
+							<div className="bg-[#151515] w-full h-full rounded-xl flex flex-col justify-center ">
+								<div className="px-20 mt-5">
 									<div className="flex justify-between border-b border-neutral-700 px-10 py-5">
 										<p className="text-white text-xl">General</p>
 										<p className="text-white text-xl">2500 LKR</p>
@@ -152,7 +150,7 @@ const Booking = () => {
 									</div>
 
 									<a
-										className="group relative inline-block overflow-hidden  border-2 rounded-lg border-[#FFD700] px-10 py-2 mt-10 focus:outline-none focus:ring "
+										className="group justify-center inline-block overflow-hidden border-2 rounded-lg border-[#FFD700] px-10 py-2 my-5 focus:outline-none focus:ring"
 										type="button"
                     onClick={() => setIsCheckoutModalOpen(true)}
 										href="#"

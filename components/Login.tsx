@@ -34,7 +34,7 @@ const Login = () => {
 	return (
 		<div>
 			<button
-				className="px-5 py-2 border-2 border-white rounded-md"
+				className="px-5 py-2 border-2 border-white rounded-md text-white hover:border-none hover:bg-[#FFD700] hover:text-black transition-colors"
 				onClick={() => setIsOpen(true)}
 			>
 				Login

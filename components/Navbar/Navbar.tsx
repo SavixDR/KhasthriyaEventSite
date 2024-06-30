@@ -39,7 +39,7 @@ const Navbar = () => {
     //   backdrop-blur-lg `}
     // >
     <header
-      className={`fixed w-full z-10 top-0 transition-all duration-300 
+      className={`sticky w-full z-10 top-0 transition-all duration-300 
       
     backdrop-blur-lg `}
     >
@@ -54,7 +54,7 @@ const Navbar = () => {
                 <li>
                   <a
                     className="text-[#FFD700] transition hover:text-[#FFD700]"
-                    href="#"
+                    href="#Home"
                   >
                     Home
                   </a>
@@ -62,7 +62,7 @@ const Navbar = () => {
                 <li>
                   <a
                     className="text-white transition hover:text-[#FFD700]"
-                    href="#"
+                    href="#Shows"
                   >
                     Shows
                   </a>
@@ -70,7 +70,7 @@ const Navbar = () => {
                 <li>
                   <a
                     className="text-white transition hover:text-[#FFD700]"
-                    href="#"
+                    href="#About"
                   >
                     About
                   </a>
@@ -78,9 +78,9 @@ const Navbar = () => {
                 <li>
                   <a
                     className="text-white transition hover:text-[#FFD700]"
-                    href="#"
+                    href="#Reviews"
                   >
-                    Contact Us
+                    Reviews
                   </a>
                 </li>
               </ul>
