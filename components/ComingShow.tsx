@@ -1,8 +1,9 @@
 import React from "react";
 import { motion, useInView } from "framer-motion";
+import Link from "next/link";
 const ComingShow = () => {
   return (
-    <section className="relative px-5 md:px-10">
+    <div className="relative px-5 md:px-10">
       {/* <img
         src="https://assets.website-files.com/646603af5972c5339c9b35dc/6466329703de460a821a5c48_Background%20Hero.svg"
         loading="lazy"
@@ -44,7 +45,9 @@ const ComingShow = () => {
                 href="#"
                 className="inline-block rounded-full bg-[#FFD700] px-6 py-4 text-center font-bold text-black transition hover:border-black hover:bg-white"
               >
-                Book Tickets!
+                <Link href={`/events/1`}>
+                Book Tickets!</Link>
+               
               </motion.a>
             </motion.div>
           </div>
@@ -63,7 +66,7 @@ const ComingShow = () => {
           </motion.div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 

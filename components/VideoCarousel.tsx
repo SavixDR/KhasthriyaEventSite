@@ -72,7 +72,7 @@ export const VideoCarousel = () => {
   };
 
   return (
-    <section>
+    <div>
       <motion.h2
         initial={{ x: 0, opacity: 0 }}
         whileInView={{ x: 0, opacity: 1 }}
@@ -94,6 +94,6 @@ export const VideoCarousel = () => {
           <SmallVideoCarousel movies={randomMoviesSet2} />
         </div>
       </motion.div>
-    </section>
+    </div>
   );
 };

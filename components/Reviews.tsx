@@ -2,7 +2,7 @@ import React from "react";
 
 export default function Reviews() {
   return (
-    <section id="Reviews" className="bg-black text-white">
+    <div id="Reviews" className="bg-black text-white">
       {/* Container */}
       <div className="mx-auto w-full max-w-7xl px-5 py-16 md:px-10 md:py-24 lg:py-32">
         {/* Title */}
@@ -88,6 +88,6 @@ export default function Reviews() {
           </a>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

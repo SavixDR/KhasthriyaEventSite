@@ -2,7 +2,7 @@ import React from "react";
 
 const Facts = () => {
   return (
-    <section>
+    <div>
       {/* Container */}
       <div className="px-5 py-16 md:px-10 md:py-24 lg:py-32">
         {/* Component */}
@@ -32,7 +32,7 @@ const Facts = () => {
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 };
 
