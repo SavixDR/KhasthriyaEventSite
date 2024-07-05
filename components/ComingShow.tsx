@@ -1,20 +1,26 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion, useInView } from "framer-motion";
 import Link from "next/link";
+import { useSession } from "next-auth/react";
+import CheckoutModal from "./CheckoutModal";
+import LoginModal from "./LoginModal";
 const ComingShow = () => {
+  const { data: session } = useSession();
+  const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
+
+  const handleBookTicketsClick = () => {
+    if (session) {
+      setIsCheckoutModalOpen(true);
+    } else {
+      setIsLoginModalOpen(true);
+    }
+  };
+  
   return (
     <div className="relative px-5 md:px-10">
-      {/* <img
-        src="https://assets.website-files.com/646603af5972c5339c9b35dc/6466329703de460a821a5c48_Background%20Hero.svg"
-        loading="lazy"
-        alt=""
-        className="absolute inset-[0%] -z-[1] inline-block h-full w-full max-w-full object-cover"
-      /> */}
-      {/* Container */}
       <div className="mx-auto w-full max-w-7xl py-16 md:py-24 lg:py-32">
-        {/* Component */}
         <div className="grid grid-cols-1 items-center gap-8 sm:gap-20 lg:grid-cols-2">
-          {/* Header Content */}
           <div className="max-w-[720px]">
             <motion.h2
               initial={{ x: -100, opacity: 0 }}
@@ -42,15 +48,25 @@ const ComingShow = () => {
                 initial={{ x: 0, opacity: 0 }}
                 whileInView={{ x: 0, opacity: 1 }}
                 transition={{ duration: 4, delay: 0.5 }}
-                href="#"
+                onClick={handleBookTicketsClick}
                 className="inline-block rounded-full bg-[#FFD700] px-6 py-4 text-center font-bold text-black transition hover:border-black hover:bg-white"
               >
-                <Link href={`/events/1`}>
-                Book Tickets!</Link>
-               
+                Book Tickets!
               </motion.a>
             </motion.div>
           </div>
+          {isCheckoutModalOpen && (
+            <CheckoutModal
+              isOpen={isCheckoutModalOpen}
+              handleClose={() => setIsCheckoutModalOpen(false)}
+            />
+          )}
+          {isLoginModalOpen && (
+            <LoginModal
+              isOpen={isLoginModalOpen}
+              handleClose={() => setIsLoginModalOpen(false)}
+            />
+          )}
           {/* Image Div */}
           <motion.div
             initial={{ x: 100, opacity: 0 }}

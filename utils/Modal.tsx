@@ -1,17 +1,17 @@
 import React, { useEffect } from 'react'
 import ReactPortal from './ReactPortal';
 
-interface LoginModalProps {
+interface ModalProps {
     children: React.ReactElement;
     isOpen: boolean;
     handleClose: () => void;
 }
 
-const LoginModal = ({
+const Modal = ({
     children,
     isOpen,
     handleClose
-}: LoginModalProps) => {
+}: ModalProps) => {
 
     useEffect(()=> {
         const closeOnEscapeKey = (e: KeyboardEvent) => {
@@ -45,4 +45,4 @@ const LoginModal = ({
   )
 }
 
-export default LoginModal
+export default Modal

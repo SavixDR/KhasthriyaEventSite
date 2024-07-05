@@ -13,7 +13,7 @@ const HowItWorks = () => {
     }
   }, [isInView]);
   return (
-    <motion.div ref={ref} className="w-full">
+    <motion.div ref={ref} className="w-full" id="GetStarted">
       {" "}
       {/* Container */}{" "}
       <motion.div
