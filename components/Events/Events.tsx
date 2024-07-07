@@ -13,7 +13,7 @@ const Events = () => {
         transition={{ duration: 3 }}
         className="text-white text-5xl text-center my-[200px] font-bold pt-[200px]"
       >
-        Previous Events..
+        Upcoming Events..
       </motion.div>
       <div className="grid mx-10 md:grid-cols-2 lg:mx-20 xl:mx-[150px] md:gap-10">
         {events.map((event, index) => (

@@ -113,45 +113,49 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+
       {/* Hamburger Menu */}
-      <div className="sticky h-screen">
-        <div
-          ref={menuRef}
-          className={`md:hidden top-0 left-0 h-full w-64 backdrop-blur-lg z-20 transition-transform duration-300 ${
-            isOpen ? "translate-x-0" : "-translate-x-full"
-          }`}
-        >
-          <ul className="pt-20 text-white text-center">
-            <li className="py-4">
-              <a
-                href="#Home"
-                className="block px-4 py-2 text-white transition hover:text-[#FFD700]"
-              >
-                Home
-              </a>
-            </li>
-            <li className="py-4">
-              <a href="#Shows" className="block px-4 py-2 hover:text-[#FFD700]">
-                Shows
-              </a>
-            </li>
-            <li className="py-4">
-              <a href="#About" className="block px-4 py-2 hover:text-[#FFD700]">
-                About
-              </a>
-            </li>
-            <li className="py-4">
-              <a
-                href="#Reviews"
-                className="block px-4 py-2 hover:text-[#FFD700]"
-              >
-                Reviews
-              </a>
-            </li>
-          </ul>
-        </div>
-        {/* End Hamburger Menu */}
+      <div
+        className={` backdrop-blur-lg md:hidden sticky top-0 left-0 h-screen w-64 bg-black/80 z-20 transition-transform duration-300 ${
+          isOpen ? "translate-x-0" : "-translate-x-full"
+        }`}
+      >
+        <div className="backdrop-blur-lg"></div>
+        <ul className="pt-20 text-white text-center ">
+          <li className="py-4">
+            <a
+              href="#Home"
+              className="block px-4 py-2 text-white transition hover:text-[#FFD700]"
+            >
+              Home
+            </a>
+          </li>
+          <li className="py-4">
+            <a href="#Shows" className="block px-4 py-2 hover:text-[#FFD700]">
+              Shows
+            </a>
+          </li>
+          <li className="py-4">
+            <a href="#About" className="block px-4 py-2 hover:text-[#FFD700]">
+              About
+            </a>
+          </li>
+          <li className="py-4">
+            <a href="#Reviews" className="block px-4 py-2 hover:text-[#FFD700]">
+              Reviews
+            </a>
+          </li>
+          {/* <li className="py-4">
+            <a
+              href="#"
+              className="block mx-14 py-2 bg-[#FFD700] rounded-lg text-gray-700 font-bold hover:text-black hover:bg-[#ddc74a] px-10"
+            >
+              Login
+            </a>
+          </li> */}
+        </ul>
       </div>
+      {/* End Hamburger Menu */}
     </header>
   );
 };
