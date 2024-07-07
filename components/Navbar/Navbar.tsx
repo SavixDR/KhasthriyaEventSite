@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { useEffect, useState } from 'react'
-import Link from 'next/link'
-import Login from '../Login';
-
+import React, { useEffect, useState } from "react";
+import Link from "next/link";
+import Login from "../Login";
+import { signIn } from "next-auth/react";
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false); // Initialize with false
@@ -39,15 +39,15 @@ const Navbar = () => {
     //   backdrop-blur-lg `}
     // >
     <header
-    className={`sticky w-full z-10 top-0 transition-all duration-300 
+      className={`sticky w-full z-10 top-0 transition-all duration-300 
     
   bg-black bg-opacity-10 bg-blur-lg  `}
-  >
-    <div className="mx-auto w-full  backdrop-blur-lg xl:px-[170px]  lg:px-[100px]">
-      <div className="flex h-14 justify-between items-center">
-        <div className="text-white font-bold p-8 mx-2 md:flex md:items-center md:gap-12 px-[20px]">
-          <img src="/logo.svg" alt="Logo" className="h-20" />
-        </div>
+    >
+      <div className="mx-auto w-full  backdrop-blur-lg xl:px-[170px]  lg:px-[100px]">
+        <div className="flex h-14 justify-between items-center">
+          <div className="text-white font-bold p-8 mx-2 md:flex md:items-center md:gap-12 px-[20px]">
+            <img src="/logo.svg" alt="Logo" className="h-20" />
+          </div>
 
         <div className="justify-right items-center hidden md:block rounded-full p-4 bg-opacity-20 backdrop-blur-lg drop-shadow-lg">
           <nav aria-label="Global">
@@ -152,12 +152,11 @@ const Navbar = () => {
             Login
           </a>
         </li> */}
-      </ul>
-    </div>
-    {/* End Hamburger Menu */}
-    </header>
-
-
+        </ul>
+      </div>
+      {/* End Hamburger Menu */}
+          
+    </header>
   );
 };
 

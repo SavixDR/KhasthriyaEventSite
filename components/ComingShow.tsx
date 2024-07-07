@@ -44,15 +44,20 @@ const ComingShow = () => {
                 blandit. A lacus vestibulum sed arcu non odio euismod.
               </motion.p>
 
-              <motion.a
-                initial={{ x: 0, opacity: 0 }}
-                whileInView={{ x: 0, opacity: 1 }}
-                transition={{ duration: 4, delay: 0.5 }}
-                onClick={handleBookTicketsClick}
-                className="inline-block rounded-full bg-[#FFD700] px-6 py-4 text-center font-bold text-black transition hover:border-black hover:bg-white"
-              >
-                Book Tickets!
-              </motion.a>
+              <Link href={'/events/1'}>
+                <motion.div
+                  initial={{ x: 0, opacity: 0 }}
+                  whileInView={{ x: 0, opacity: 1 }}
+                  transition={{ duration: 4, delay: 0.5 }}
+                  className="inline-block rounded-full bg-[#FFD700] px-6 py-4 text-center font-bold text-black transition hover:border-black hover:bg-white"
+                >
+                  Book Tickets!
+                </motion.div>
+    </Link>
+
+
+             
+
             </motion.div>
           </div>
           {isCheckoutModalOpen && (

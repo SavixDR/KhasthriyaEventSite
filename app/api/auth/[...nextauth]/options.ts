@@ -2,7 +2,7 @@ import type { NextAuthOptions } from "next-auth";
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import Google from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
-import CredentialsProvider from 'next-auth/providers/credentials'
+import CredentialsProvider from "next-auth/providers/credentials";
 import { createTransport } from "nodemailer";
 import { db } from "@/lib/db";
 import { compare } from "bcrypt";
@@ -33,10 +33,18 @@ export const options: NextAuthOptions = {
             
 		}),
     CredentialsProvider({
-      name: 'Credentials',
-      credentials:{
-        email: { label: "Email", type: "email", placeholder: "Enter your email" },
-        password: { label: "Password", type: "password" , placeholder: "********" }
+      name: "Credentials",
+      credentials: {
+        email: {
+          label: "Email",
+          type: "email",
+          placeholder: "Enter your email",
+        },
+        password: {
+          label: "Password",
+          type: "password",
+          placeholder: "********",
+        },
       },
       async authorize(credentials, req) {
         console.log("Authorizing credentials", credentials, req)
@@ -101,40 +109,44 @@ export const options: NextAuthOptions = {
   }
 };
 
-async function sendVerificationRequest(params: { identifier: any; url: any; provider: any;}) {
-    const { identifier, url, provider } = params
-    const { host } = new URL(url)
-    // NOTE: You are not required to use `nodemailer`, use whatever you want.
-    const transport = createTransport(provider.server)
-    const result = await transport.sendMail({
-      to: identifier,
-      from: provider.from,
-      subject: `Sign in to ${host}`,
-      text: text({ url, host }),
-      html: html({ url, host }),
-    })
-    const failed = result.rejected.concat(result.pending).filter(Boolean)
-    if (failed.length) {
-      throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`)
-    }
+async function sendVerificationRequest(params: {
+  identifier: any;
+  url: any;
+  provider: any;
+}) {
+  const { identifier, url, provider } = params;
+  const { host } = new URL(url);
+  // NOTE: You are not required to use `nodemailer`, use whatever you want.
+  const transport = createTransport(provider.server);
+  const result = await transport.sendMail({
+    to: identifier,
+    from: provider.from,
+    subject: `Sign in to ${host}`,
+    text: text({ url, host }),
+    html: html({ url, host }),
+  });
+  const failed = result.rejected.concat(result.pending).filter(Boolean);
+  if (failed.length) {
+    throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`);
   }
+}
 
-function html(params: { url: string, host: string,}) {
-    const { url, host } = params
-  
-    const escapedHost = host.replace(/\./g, "&#8203;.")
-  
-    const brandColor = "#346df1"
-    const color = {
-      background: "#f9f9f9",
-      text: "#444",
-      mainBackground: "#fff",
-      buttonBackground: brandColor,
-      buttonBorder: brandColor,
-      buttonText: "#fff",
-    }
-  
-    return `
+function html(params: { url: string; host: string }) {
+  const { url, host } = params;
+
+  const escapedHost = host.replace(/\./g, "&#8203;.");
+
+  const brandColor = "#346df1";
+  const color = {
+    background: "#f9f9f9",
+    text: "#444",
+    mainBackground: "#fff",
+    buttonBackground: brandColor,
+    buttonBorder: brandColor,
+    buttonText: "#fff",
+  };
+
+  return `
   <body style="background: ${color.background};">
     <table width="100%" border="0" cellspacing="20" cellpadding="0"
       style="background: ${color.mainBackground}; max-width: 600px; margin: auto; border-radius: 10px;">
@@ -164,10 +176,10 @@ function html(params: { url: string, host: string,}) {
       </tr>
     </table>
   </body>
-  `
-  }
-  
-  /** Email Text body (fallback for email clients that don't render HTML, e.g. feature phones) */
-  function text({ url, host }: { url: string, host: string }) {
-    return `Sign in to ${host}\n${url}\n\n`
-  }
+  `;
+}
+
+/** Email Text body (fallback for email clients that don't render HTML, e.g. feature phones) */
+function text({ url, host }: { url: string; host: string }) {
+  return `Sign in to ${host}\n${url}\n\n`;
+}
