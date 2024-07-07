@@ -55,7 +55,7 @@ const Navbar = () => {
               <li>
                 <a
                   className="text-[#FFD700] transition hover:text-[#FFD700]"
-                  href="#"
+                  href="#Home"
                 >
                   Home
                 </a>
@@ -63,7 +63,7 @@ const Navbar = () => {
               <li>
                 <a
                   className="text-white transition hover:text-[#FFD700]"
-                  href="#"
+                  href="#Shows"
                 >
                   Shows
                 </a>
@@ -71,7 +71,7 @@ const Navbar = () => {
               <li>
                 <a
                   className="text-white transition hover:text-[#FFD700]"
-                  href="#"
+                  href="#About"
                 >
                   About
                 </a>
@@ -79,23 +79,24 @@ const Navbar = () => {
               <li>
                 <a
                   className="text-white transition hover:text-[#FFD700]"
-                  href="#"
+                  href="#Reviews"
                 >
-                  Contact Us
+                  Reviews
                 </a>
               </li>
             </ul>
           </nav>
         </div>
         <div className="flex items-center gap-4 mx-5 p-8">
-          <div className="sm:flex sm:gap-4" onClick={handleClick}>
+          {/* <div className="sm:flex sm:gap-4" onClick={handleClick}>
             <a
               className="rounded-xl font-bold bg-[#FFD700] px-5 py-2.5 text-sm text-gray-700 hover:text-black shadow hover:bg-[#ddc74a]"
               href="#"
             >
               Login
             </a>
-          </div>
+          </div> */}
+          <Login />
           <div className="block md:hidden">
             <button
               className="rounded text-white hover:text-white/75"
