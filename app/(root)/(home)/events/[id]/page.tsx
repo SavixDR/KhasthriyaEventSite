@@ -168,28 +168,7 @@ const Booking = () => {
 						</div>
 					</div>
 
-					<div className="px-20 mt-20 bg-black">
-						<h1 className="text-white text-4xl font-semibold text-center md:text-left md:mx-10">
-							Featured Artists
-						</h1>
-						<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
-							{artists.map((artist, index) => (
-								<div
-									key={index}
-									className="my-10 flex items-center flex-col"
-								>
-									<img
-										src={artist.imgUrl}
-										alt={artist.name}
-										className="w-32 h-32 rounded-full object-cover mb-4"
-									/>
-									<p className="text-white text-center text-lg">
-										{artist.name}
-									</p>
-								</div>
-							))}
-						</div>
-					</div>
+				
 				</div>
 			</div>
 		</div>
