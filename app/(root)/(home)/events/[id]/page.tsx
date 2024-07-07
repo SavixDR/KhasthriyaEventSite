@@ -30,11 +30,19 @@ const Booking = () => {
 	return (
 		<div className="wrapper bg-[#1a1a1a]">
 			<div className="wallpaper w-full">
-				<img
+				{/* <img
 					className="wallpaperimg w-full h-full object-cover"
 					src={event.poster}
 					alt={event.title}
-				/>
+				/> */}
+
+<div className="wallpaperimg w-full h-full  bg-black">
+          <img
+            className=" w-full h-full object-fill"
+            src={event.poster}
+            alt={event.title}
+          />
+        </div>
 			</div>
 
 			<div className="details flex justify-center bg-black flex-col items-center w-full   ">
@@ -63,11 +71,13 @@ const Booking = () => {
 							</div>
 							<div className="flex items-center gap-x-3 mb-5">
 								<FontAwesomeIcon icon={faLocationDot} />
-								<p>Sahas Uyana - Kandy</p>
+								<p>Viharamahadevi Colombo
+								</p>
 							</div>
 							<div className="flex items-center gap-x-3 mb-5">
 								<FontAwesomeIcon icon={faAward} />
-								<p>Organized by HASKY ENTERTAINMENT</p>
+								<p>Organized by Swarathi Entertainment Group
+</p>
 							</div>
 						</div>
 						<div className="my-5 mt-10">
@@ -116,14 +126,8 @@ const Booking = () => {
 							<div className="max-w-[500px] mt-10 md:px-10 lg:px-10">
 								{" "}
 								<p className="text-white text-justify">
-									HASKY ENTERTAINMENT proudly presents "SARAMA LIVE IN CONCERT"
-									on the 11th of April 2024 at Sahas Uyana, Kandy. Enjoy
-									sensational performances by Sanuka and Windy, with special
-									acts from Chandika Lilan and Milan. The evening will be
-									brought to life with music by the acclaimed Memory SL Band and
-									supported by Vini Products. Join us for a night of
-									unforgettable melodies and vibrant entertainment, and make
-									"SARAMA LIVE IN CONCERT" an experience to remember!
+								Api Machan Colombo – Chapter 1" is biggest exquisite musical event celebrating the legendary talents of Five iconic Sri Lankan singers –Wasthi, Dinesh Gamage, Kaizer Kaiz, Kanchana Anuradi and Umaria Sinhawansa. As the names suggest, these artists are true talented princess and princes of Sri Lankan music, known for their melodious voices, soulful lyrics, and enduring connection with their adoring fans. "Api Machan Colombo – Chapter 1’’ promises an enchanting evening filled with nostalgia, emotion, and celebration of the rich musical heritage of Sri Lanka. The concert is scheduled for August 31st, 2024, at the picturesque Viharamahadevi Open Air Theatre, creating a perfect ambiance for a musical journey. The show will kick off at 7:00PM, allowing attendees to immerse themselves in the magic of these five musical artists. Don't miss the chance to witness these legends of Sri Lankan music.
+
 								</p>
 							</div>
 						</div>
@@ -137,7 +141,7 @@ const Booking = () => {
 							</h1>
 
 							<div className="bg-[#151515] w-full h-full rounded-xl flex flex-col justify-center ">
-								<div className="px-20 mt-5">
+								<div className="px-20 mt-5 py-10">
 									<div className="flex justify-between border-b border-neutral-700 px-10 py-5">
 										<p className="text-white text-xl">General</p>
 										<p className="text-white text-xl">2500 LKR</p>
@@ -148,23 +152,28 @@ const Booking = () => {
 										<p className="text-white text-xl">5000 LKR</p>
 									</div>
 
-									<div className="flex justify-between px-10 py-5 border-neutral-700">
+									<div className="flex justify-between px-10 py-5 border-neutral-700 mb-5">
 										<p className="text-white text-xl">VVIP</p>
 										<p className="text-white text-xl">10000 LKR</p>
 									</div>
 
-									<a
-										className="group justify-center inline-block overflow-hidden border-2 rounded-lg border-[#FFD700] px-10 py-2 my-5 focus:outline-none focus:ring"
-										type="button"
+									<div className="px-10">
+									<Link
+										className="px-10 
+										
+										py-3
+										text-md font-bold hover:text-black hover:bg-[#ffd700] border-2 rounded-lg border-[#ffd700] text-[#ffd700]
+										 "
 										onClick={() => setIsCheckoutModalOpen(true)}
 										href="#"
-									>
-										<span className="absolute inset-y-0 left-0 w-[2px] bg-[#FFD700] transition-all group-hover:w-full "></span>
+									>Checkout
+										
 
-										<span className="relative text-xl  text-[#FFD700] transition-colors group-hover:text-black">
-											Checkout
-										</span>
-									</a>
+										
+									</Link>
+									</div>
+
+									
 									{isCheckoutModalOpen && (
 										<CheckoutModal
 											isOpen={isCheckoutModalOpen}

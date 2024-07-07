@@ -1,9 +1,9 @@
 export const events = [
   {
     eventId: "1",
-    title: "Alan Walker World Tour",
-    date: "May 30 2024 00:00:00",
-    poster: "/wayo.jpg",
+    title: "Api Machan Colombo – Chapter 1",
+    date: "August 31 2024 19:00:00",
+    poster: "/api machan.jpg",
     // "https://images.hdqwalls.com/wallpapers/alan-walker-faded-8k-5e.jpg",
   },
 
