@@ -1,13 +1,14 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Link from "next/link";
 import Login from "../Login";
 import { signIn } from "next-auth/react";
 
 const Navbar = () => {
-  const [isScrolled, setIsScrolled] = useState(false); // Initialize with false
-  const [isOpen, setIsOpen] = useState(false); // State for controlling menu open/close
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const menuRef = useRef<HTMLDivElement | null>(null);
 
   const handleScroll = () => {
     if (window.scrollY > 20) {
@@ -21,29 +22,28 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      setIsOpen(false);
+    }
+  };
+
   useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+    document.addEventListener("mousedown", handleClickOutside);
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  const handleClick = () => {};
-
   return (
-    // <header
-    //   className={`fixed w-full z-10 top-0 transition-all duration-300
-    //     ${
-    //     isScrolled ? "bg-black" : "bg-transparent"
-    //   }
-    //   backdrop-blur-lg `}
-    // >
     <header
       className={`sticky w-full z-10 top-0 transition-all duration-300 
-    
-  bg-black bg-opacity-10 bg-blur-lg  `}
+      bg-black bg-opacity-10 bg-blur-lg h-14 `}
     >
-      <div className="mx-auto w-full  backdrop-blur-lg xl:px-[170px]  lg:px-[100px]">
+      <div className="mx-auto w-full backdrop-blur-lg xl:px-[170px] lg:px-[100px]">
         <div className="flex h-14 justify-between items-center">
           <div className="text-white font-bold p-8 mx-2 md:flex md:items-center md:gap-12 px-[20px]">
             <img src="/logo.svg" alt="Logo" className="h-20" />
@@ -87,18 +87,7 @@ const Navbar = () => {
               </ul>
             </nav>
           </div>
-          <div
-            className="flex items-center gap-4 mx-5 p-8"
-            // onClick={() => signIn()}
-          >
-            {/* <div className="sm:flex sm:gap-4" onClick={handleClick}>
-            <a
-              className="rounded-xl font-bold bg-[#FFD700] px-5 py-2.5 text-sm text-gray-700 hover:text-black shadow hover:bg-[#ddc74a]"
-              href="#"
-            >
-              Login
-            </a>
-          </div> */}
+          <div className="flex items-center gap-4 mx-5 p-8">
             <Login />
             <div className="block md:hidden">
               <button
@@ -125,47 +114,44 @@ const Navbar = () => {
         </div>
       </div>
       {/* Hamburger Menu */}
-      <div
-        className={`md:hidden fixed top-0 left-0 h-full w-64   backdrop-blur-lg z-20 transition-transform duration-300 ${
-          isOpen ? "translate-x-0" : "-translate-x-full"
-        }`}
-      >
-        <ul className="pt-20 text-white text-center ">
-          <li className="py-4">
-            <a
-              href="#"
-              className="block px-4 py-2 text-white transition hover:text-[#FFD700]"
-            >
-              Home
-            </a>
-          </li>
-          <li className="py-4">
-            <a href="#" className="block px-4 py-2 hover:text-[#FFD700]">
-              Shows
-            </a>
-          </li>
-          <li className="py-4">
-            <a href="#" className="block px-4 py-2 hover:text-[#FFD700]">
-              About
-            </a>
-          </li>
-          <li className="py-4">
-            <a href="#" className="block px-4 py-2 hover:text-[#FFD700]">
-              Contact Us
-            </a>
-          </li>
-          {/* <li className="py-4">
-          <a
-            href="#"
-            className="block mx-14 py-2 bg-[#FFD700] rounded-lg text-gray-700 font-bold hover:text-black hover:bg-[#ddc74a] px-10"
-          >
-            Login
-          </a>
-        </li> */}
-        </ul>
+      <div className="sticky h-screen">
+        <div
+          ref={menuRef}
+          className={`md:hidden top-0 left-0 h-full w-64 backdrop-blur-lg z-20 transition-transform duration-300 ${
+            isOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <ul className="pt-20 text-white text-center">
+            <li className="py-4">
+              <a
+                href="#Home"
+                className="block px-4 py-2 text-white transition hover:text-[#FFD700]"
+              >
+                Home
+              </a>
+            </li>
+            <li className="py-4">
+              <a href="#Shows" className="block px-4 py-2 hover:text-[#FFD700]">
+                Shows
+              </a>
+            </li>
+            <li className="py-4">
+              <a href="#About" className="block px-4 py-2 hover:text-[#FFD700]">
+                About
+              </a>
+            </li>
+            <li className="py-4">
+              <a
+                href="#Reviews"
+                className="block px-4 py-2 hover:text-[#FFD700]"
+              >
+                Reviews
+              </a>
+            </li>
+          </ul>
+        </div>
+        {/* End Hamburger Menu */}
       </div>
-      {/* End Hamburger Menu */}
-          
     </header>
   );
 };
