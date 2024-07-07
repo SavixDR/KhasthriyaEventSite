@@ -20,7 +20,7 @@ const ComingShow = () => {
   return (
     <div className="relative px-5 md:px-10">
       <div className="mx-auto w-full max-w-7xl py-16 md:py-24 lg:py-32">
-        <div className="grid grid-cols-1 items-center gap-8 sm:gap-20 lg:grid-cols-2">
+        <div className="grid grid-cols-1  items-center gap-8 sm:gap-20 lg:grid-cols-2">
           <div className="max-w-[720px]">
             <motion.h2
               initial={{ x: -100, opacity: 0 }}
@@ -36,6 +36,7 @@ const ComingShow = () => {
               transition={{ duration: 1, delay: 0.2 }}
             >
               <motion.p className="mb-6 max-w-[480px] text-[#aeaeae] md:mb-10 lg:mb-12">
+
                 "Api Machan Colombo – Chapter 1" is biggest exquisite musical
                 event celebrating the legendary talents of Five iconic Sri
                 Lankan singers –Wasthi, Dinesh Gamage, Kaizer Kaiz, Kanchana
@@ -51,6 +52,7 @@ const ComingShow = () => {
                 at 7:00PM, allowing attendees to immerse themselves in the magic
                 of these five musical artists. Don't miss the chance to witness
                 these legends of Sri Lankan music.
+
               </motion.p>
 
               <Link href={"/events/1"}>
@@ -85,7 +87,7 @@ const ComingShow = () => {
             transition={{ duration: 1, delay: 0.15 }}
           >
             <img
-              src="/image.png"
+              src="/api machan.jpg"
               alt="CTA Card Image"
               className="mx-auto inline-block h-full w-full max-w-[640px] rounded-2xl object-cover"
             />
