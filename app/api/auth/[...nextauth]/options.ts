@@ -1,13 +1,20 @@
-import { SupabaseAdapter } from "@auth/supabase-adapter";
 import type { NextAuthOptions } from "next-auth";
-import { Adapter } from "next-auth/adapters";
+import { PrismaAdapter } from "@next-auth/prisma-adapter";
 import Google from "next-auth/providers/google";
 import EmailProvider from "next-auth/providers/email";
 import CredentialsProvider from 'next-auth/providers/credentials'
 import { createTransport } from "nodemailer";
+import { db } from "@/lib/db";
+import { compare } from "bcrypt";
 
 
 export const options: NextAuthOptions = {
+  pages: {},
+  secret: process.env.NEXTAUTH_SECRET,
+	session: {
+		strategy: "jwt",
+    maxAge: 7 * 24 * 60 * 60, //7 days
+	},
 	providers: [
 		Google({
 			clientId: process.env.GOOGLE_CLIENT_ID ?? "",
@@ -31,23 +38,67 @@ export const options: NextAuthOptions = {
         email: { label: "Email", type: "email", placeholder: "Enter your email" },
         password: { label: "Password", type: "password" , placeholder: "********" }
       },
-      authorize(credentials, req) {
-        const user = { id: '1', name: 'Savindu', email: 'savindudulanaka00@gmail.com',password: '1234' }
+      async authorize(credentials, req) {
+        console.log("Authorizing credentials", credentials, req)
 
-        if (user.email === credentials?.email && user.password === credentials?.password) {
-          return user
-        } else {
-          return null
+        if(!credentials?.email || !credentials?.password){
+          return null;
+        } 
+
+        const existingUser = await db.user.findUnique({
+          where: {email: credentials?.email}
+        })
+
+        if (!existingUser) {
+          console.log("User not found from this email.")
+          return null;
+        }
+
+        const passwordMatch  =await compare(
+					credentials.password,
+					existingUser.password
+				);
+
+        if (!passwordMatch) {
+					console.log("Username & Password does not match");
+					return null;
+				}
+
+        return {
+          id: `${existingUser.id}`,
+          username: existingUser.username,
+          nic: existingUser.NIC,
+          email: existingUser.email,
         }
       }
     })
 	],
-	adapter: SupabaseAdapter({
-		url: process.env.NEXT_PUBLIC_SUPABASE_URL ?? "",
-		secret: process.env.SUPABASE_SERVICE_ROLE_KEY ?? "",
-	}) as Adapter,
+	adapter: PrismaAdapter(db),
+  callbacks: {
+    async jwt({token, user}){
+      if(user){
+        return{
+          ...token,
+          userId: user.id,
+          username: user.username,
+          nic: user.nic,
+        }
+      }
+      return token;
+    },
 
-	//
+    async session({session,token}){ 
+      return {
+        ...session,
+        user: {
+          ...session.user,
+          id: token.userId,
+          username:token.username,
+          nic: token.nic,
+        }
+      }
+    }
+  }
 };
 
 async function sendVerificationRequest(params: { identifier: any; url: any; provider: any;}) {

@@ -88,14 +88,6 @@ const Navbar = () => {
           </nav>
         </div>
         <div className="flex items-center gap-4 mx-5 p-8">
-          {/* <div className="sm:flex sm:gap-4" onClick={handleClick}>
-            <a
-              className="rounded-xl font-bold bg-[#FFD700] px-5 py-2.5 text-sm text-gray-700 hover:text-black shadow hover:bg-[#ddc74a]"
-              href="#"
-            >
-              Login
-            </a>
-          </div> */}
           <Login />
           <div className="block md:hidden">
             <button
