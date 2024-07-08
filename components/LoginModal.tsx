@@ -1,129 +1,49 @@
-import React from "react";
+import React, { FormEvent, useState } from "react";
 import Modal from "@/utils/Modal";
 import { signIn } from "next-auth/react";
+import * as z from "zod";
+import { useRouter } from "next/navigation";
 
 interface LoginModalProps {
   isOpen: boolean;
   handleClose: () => void;
+  callBackUrl?: string ;
 }
 
-const LoginModal = ({ isOpen, handleClose }: LoginModalProps) => {
+const FormSchema = z.object({
+	email: z.string().min(1, "Email is required").email("Invalid email"),
+	password: z
+		.string()
+		.min(1, "Password is required")
+		.min(8, "Password must have than 8 characters"),
+});
+
+const LoginModal = ({ isOpen, handleClose,callBackUrl = "/" }: LoginModalProps) => {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  
+  const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const result = await signIn("credentials", {
+      email,
+      password,
+      redirect: false,
+      callbackUrl: callBackUrl, // or the page you want to redirect to after successful login
+    });
+    console.log("Sign in result:", result);
+    if (result?.error) {
+      console.log("Sign-in error:", result.error);
+    } else {
+      handleClose(); // Close the modal on successful sign-in
+      window.location.href = result?.url??""; // Redirect to the callback URL
+    }
+  };
+
   return (
     <Modal isOpen={isOpen} handleClose={handleClose}>
-      <div className="bg-white rounded-lg dark:bg-gray-700 ">
-        <div className="flex justify-end p-2">
-          <button
-            type="button"
-            className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-gray-800 dark:hover:text-white"
-          >
-            <svg
-              className="w-5 h-5"
-              fill="currentColor"
-              viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                fill-rule="evenodd"
-                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                clip-rule="evenodd"
-              ></path>
-            </svg>
-          </button>
-        </div>
-        <form
-          className="space-y-6 px-6 lg:px-8 pb-4 sm:pb-6 xl:pb-8"
-          action="#"
-        >
-          <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-            Sign in to our platform
-          </h3>
-          <div>
-            <label
-              htmlFor="email"
-              className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-            >
-              Your email
-            </label>
-            <input
-              type="email"
-              name="email"
-              id="email"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              placeholder="name@company.com"
-              required={true}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="password"
-              className="text-sm font-medium text-gray-900 block mb-2 dark:text-gray-300"
-            >
-              Your password
-            </label>
-            <input
-              type="password"
-              name="password"
-              id="password"
-              placeholder="••••••••"
-              className="bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white"
-              required={true}
-            />
-          </div>
-          <div className="flex justify-between">
-            <div className="flex items-start">
-              <div className="flex items-center h-5">
-                <input
-                  id="remember"
-                  aria-describedby="remember"
-                  type="checkbox"
-                  className="bg-gray-50 border border-gray-300 focus:ring-3 focus:ring-blue-300 h-4 w-4 rounded dark:bg-gray-600 dark:border-gray-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-                  required={true}
-                />
-              </div>
-              <div className="text-sm ml-3">
-                <label
-                  htmlFor="remember"
-                  className="font-medium text-gray-900 dark:text-gray-300"
-                >
-                  Remember me
-                </label>
-              </div>
-            </div>
-            <a
-              href="#"
-              className="text-sm text-blue-700 hover:underline dark:text-blue-500"
-            >
-              Lost Password?
-            </a>
-          </div>
-          <button
-            type="submit"
-            className="w-full text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-          >
-            Login to your account
-          </button>
-          <div
-            className="relative flex align-middle justify-center px-3 border-red-600 border-2"
-            onClick={() => signIn()}
-          >
-            Login using Google
-          </div>
-          <div className="relative flex align-middle justify-center px-3 border-red-600 border-2">
-            Login using Facebook
-          </div>
-          <div className="text-sm font-medium text-gray-500 dark:text-gray-300">
-            Not registered?{" "}
-            <a
-              href="#"
-              className="text-blue-700 hover:underline dark:text-blue-500"
-            >
-              Create account
-            </a>
-          </div>
-        </form>
-      </div>
-
-      {/* <div className="lg:w-[368px] xl:w-[368px]  max-w-sm p-6 sm:m-12 border border-[#FFD700] rounded-3xl bg-black shadow-[#FFD700]/20 shadow-2xl   ">
+      <div className="lg:w-[368px] xl:w-[368px]  max-w-sm p-6 sm:m-12 border border-[#FFD700] rounded-3xl bg-black shadow-[#FFD700]/20 shadow-2xl   ">
         <div>
           <img src="/logo.svg" className="w-24 mx-auto" alt="Logo" />
         </div>
@@ -133,7 +53,7 @@ const LoginModal = ({ isOpen, handleClose }: LoginModalProps) => {
           </h1>
           <div className="w-full flex-1 mt-8">
             <div className="flex flex-col items-center">
-              <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-[#FFD700] text-gray-800 hover:bg-[#b49e1f] flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline">
+              <button className="w-full max-w-xs font-bold shadow-sm rounded-lg py-3 bg-[#FFD700] text-gray-800 hover:bg-[#b49e1f] flex items-center justify-center transition-all duration-300 ease-in-out focus:outline-none hover:shadow focus:shadow-sm focus:shadow-outline" onClick={() => signIn()}>
                 <div className="bg-white p-2 rounded-full">
                   <svg className="w-4" viewBox="0 0 533.5 544.3">
                     <path
@@ -154,7 +74,7 @@ const LoginModal = ({ isOpen, handleClose }: LoginModalProps) => {
                     />
                   </svg>
                 </div>
-                <span className="ml-4">Sign Up with Google</span>
+                <span className="ml-4" >Sign Up with Google</span>
               </button>
             </div>
 
@@ -165,35 +85,41 @@ const LoginModal = ({ isOpen, handleClose }: LoginModalProps) => {
             </div>
 
             <div className="mx-auto max-w-xs mt-12">
-              <input
-                className="w-full px-8 py-4 rounded-lg font-medium bg-gray-900 border border-[#FFD700] placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
-                type="email"
-                placeholder="Email"
-                required={true}
-              />
-              <input
-                className="w-full px-8 py-4 rounded-lg font-medium bg-gray-900 border border-[#FFD700] placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
-                type="password"
-                placeholder="Password"
-                required={true}
-                id="password"
-              />
-              <button className="mt-5 tracking-wide font-semibold bg-[#FFD700] text-gray-100 w-full py-4 rounded-lg hover:bg-[#b49e1f] transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none">
-                <svg
-                  className="w-6 h-6 -ml-2"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  viewBox="0 0 24 24"
-                  color="black"
-                >
-                  <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M20 8v6M23 11h-6" />
-                  <circle cx="8.5" cy="7" r="4" />
-                </svg>
-                <span className="ml-3 text-black">Sign Up</span>
-              </button>
+              <form onSubmit={handleSignIn}>
+                <input
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-900 border border-[#FFD700] placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white"
+                  type="email"
+                  value={email}
+                  placeholder="Email"
+                  onChange={(e) => setEmail(e.target.value)}
+                  required={true}
+                />
+                <input
+                  className="w-full px-8 py-4 rounded-lg font-medium bg-gray-900 border border-[#FFD700] placeholder-gray-500 text-sm focus:outline-none focus:border-gray-400 focus:bg-white mt-5"
+                  type="password"
+                  value={password}
+                  placeholder="Password"
+                  onChange={(e) => setPassword(e.target.value)}
+                  required={true}
+                  id="password"
+                />
+                <button className="mt-5 tracking-wide font-semibold bg-[#FFD700] text-gray-100 w-full py-4 rounded-lg hover:bg-[#b49e1f] transition-all duration-300 ease-in-out flex items-center justify-center focus:shadow-outline focus:outline-none" type="submit">
+                  <svg
+                    className="w-6 h-6 -ml-2"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    viewBox="0 0 24 24"
+                    color="black"
+                  >
+                    <path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2M20 8v6M23 11h-6" />
+                    <circle cx="8.5" cy="7" r="4" />
+                  </svg>
+                  <span className="ml-3 text-black">Sign Up</span>
+                </button>
+              </form>
               <p className="mt-6 text-xs text-gray-600 text-center">
                 I agree to abide by templatana's{" "}
                 <a href="#" className="border-b border-gray-500 border-dotted">
@@ -207,7 +133,7 @@ const LoginModal = ({ isOpen, handleClose }: LoginModalProps) => {
             </div>
           </div>
         </div>
-      </div> */}
+      </div>
     </Modal>
   );
 };
