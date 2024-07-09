@@ -15,10 +15,30 @@ interface EventProps {
 	event: {
 		eventId: string;
 		title: string;
-		date: string;
+		date: Date;
 		poster: string;
+		venue: string;
 	};
 }
+function formatDateToCustomString(dateObj:Date) {
+	const months = ["January", "February", "March", "April", "May", "June", 
+					"July", "August", "September", "October", "November", "December"];
+	
+	// Get the components in UTC
+	const month = months[dateObj.getUTCMonth()];
+	const day = dateObj.getUTCDate();
+	const year = dateObj.getUTCFullYear();
+	let hours = dateObj.getUTCHours();
+	const minutes = dateObj.getUTCMinutes().toString().padStart(2, '0');
+	const seconds = dateObj.getUTCSeconds().toString().padStart(2, '0');
+	const ampm = hours >= 12 ? 'pm' : 'am';
+	hours = hours % 12;
+	hours = hours ? hours : 12; // the hour '0' should be '12'
+	const strTime = `${hours}:${minutes} ${ampm}`;
+  
+	return `${month} ${day} ${year} ${strTime}`;
+  }
+  
 
 const eventHero = ({ event }: EventProps) => {
 	return (
@@ -44,15 +64,15 @@ const eventHero = ({ event }: EventProps) => {
 					<div className="mt-20">
 						<div className="flex items-center gap-3 mb-5">
 							<FontAwesomeIcon icon={faCalendar} />
-							<p>{event.date}</p>
+							<p>{formatDateToCustomString(event.date)}</p>
 						</div>
 						<div className="flex items-center gap-x-3 mb-5">
 							<FontAwesomeIcon icon={faLocationDot} />
-							<p>Sahas Uyana - Kandy</p>
+							<p>{event.venue}</p>
 						</div>
 						<div className="flex items-center gap-x-3 mb-5">
 							<FontAwesomeIcon icon={faAward} />
-							<p>Organized by HASKY ENTERTAINMENT</p>
+							<p>Organized by KW Group</p>
 						</div>
 					</div>
 					<div className="my-5 mt-10">

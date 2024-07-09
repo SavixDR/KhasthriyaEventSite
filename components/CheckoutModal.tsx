@@ -1,4 +1,5 @@
 import Modal from "@/utils/Modal";
+import { TicketDetails } from "@prisma/client";
 import React, { useState } from "react";
 
 interface TicketPrices {
@@ -8,16 +9,20 @@ interface TicketPrices {
 interface CheckoutModalProps {
 	isOpen: boolean;
 	handleClose: () => void;
+	ticketDetails: TicketDetails[];
+	user: any;
+	eventName: string;
 }
 
-const CheckoutModal = ({ isOpen, handleClose }: CheckoutModalProps) => {
-	const ticketPrices: TicketPrices = {
-		General: 2500,
-		VIP: 5000,
-	};
+const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName }: CheckoutModalProps) => {
+
+	const ticketPrices: TicketPrices = ticketDetails.reduce((acc, ticketDetail) => {
+		acc[ticketDetail.ticketType] = ticketDetail.ticketPrice;
+		return acc;
+	  }, {} as TicketPrices);
 
 	const initialNumTicketsState: TicketPrices = Object.fromEntries(
-		Object.keys(ticketPrices).map((ticketType) => [ticketType, 0])
+		ticketDetails.map((ticketDetail) => [ticketDetail.ticketType, 0])
 	);
 
 	const [numTickets, setNumTickets] = useState<TicketPrices>(
@@ -49,30 +54,30 @@ const CheckoutModal = ({ isOpen, handleClose }: CheckoutModalProps) => {
 	};
 
 	const generateTableRows = () => {
-		return Object.entries(ticketPrices).map(([ticketType, price]) => (
+		return ticketDetails.map((ticketDetail) => (
 			<tr
 				className="text-center"
-				key={ticketType}
+				key={ticketDetail.ticketType}
 			>
-				<td className="py-2">{ticketType}</td>
-				<td className="py-2">{price.toFixed(2)} LKR</td>
+				<td className="py-2">{ticketDetail.ticketType}</td>
+				<td className="py-2">{ticketDetail.ticketPrice.toFixed(2)} LKR</td>
 				<td className="py-2 flex items-center justify-center space-x-2">
 					<span
-						onClick={() => addTicket(ticketType)}
+						onClick={() => addTicket(ticketDetail.ticketType)}
 						className="cursor-pointer px-2 text-lg"
 					>
 						+
 					</span>
-					{numTickets[ticketType]}
+					{numTickets[ticketDetail.ticketType]}
 					<span
-						onClick={() => removeTicket(ticketType)}
+						onClick={() => removeTicket(ticketDetail.ticketType)}
 						className="cursor-pointer px-2 text-lg"
 					>
 						-
 					</span>
 				</td>
 				<td className="py-2">
-					{(price * numTickets[ticketType]).toFixed(2)} LKR
+					{(ticketDetail.ticketPrice * numTickets[ticketDetail.ticketType]).toFixed(2)} LKR
 				</td>
 			</tr>
 		));
@@ -86,7 +91,7 @@ const CheckoutModal = ({ isOpen, handleClose }: CheckoutModalProps) => {
 			<div className="rounded-md p-2 bg-[#434242] flex justify-center items-center ">
 				<div className="w-full max-w-4xl bg-[#262626] rounded-xl shadow-2xl p-6">
 					<h1 className="text-3xl mb-6 text-white text-center">
-						Alan Walker: World Tour
+						{eventName}
 					</h1>
 
 					<form className="space-y-8">

@@ -28,28 +28,37 @@ model Event {
   eventId       Int             @id @default(autoincrement())
   eventName     String
   eventDate     DateTime
-  eventTime     DateTime
   eventVenue    String
+  eventPosterUrl   String
   ticketDetails TicketDetails[]
   eventUsers    eventUser[]
+  artists       Artist[]        @relation("EventArtists")
 }
 
 model TicketDetails {
-  ticketId    String      @id @default(uuid())
-  ticketPrice Float
-  ticketQty   Int
-  ticketType  String
-  eventId     Int
-  event       Event       @relation(fields: [eventId], references: [eventId])
-  eventUser   eventUser[]
+  ticketId           String      @id @default(uuid())
+  ticketPrice        Float
+  ticketQty          Int
+  ticketType         String
+  eventId            Int
+  event              Event       @relation(fields: [eventId], references: [eventId])
+  eventUser          eventUser[]
 }
 
 model eventUser {
-  id       String        @id @default(uuid())
-  eventId  Int
-  userId   String
-  ticketId String
-  event    Event         @relation(fields: [eventId], references: [eventId])
-  user     User          @relation(fields: [userId], references: [id])
-  ticket   TicketDetails @relation(fields: [ticketId], references: [ticketId])
+  orderId         String        @id @default(uuid())
+  numberOfTickets Int
+  eventId         Int
+  userId          String
+  ticketId        String
+  event           Event         @relation(fields: [eventId], references: [eventId])
+  user            User          @relation(fields: [userId], references: [id])
+  ticket          TicketDetails @relation(fields: [ticketId], references: [ticketId])
+}
+
+model Artist {
+  artistId       String  @id @default(uuid())
+  artistName     String
+  artistImageUrl String
+  event          Event[] @relation("EventArtists")
 }

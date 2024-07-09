@@ -2,7 +2,6 @@ import React, { FormEvent, useState } from "react";
 import Modal from "@/utils/Modal";
 import { signIn } from "next-auth/react";
 import * as z from "zod";
-import { useRouter } from "next/navigation";
 
 interface LoginModalProps {
   isOpen: boolean;
@@ -19,7 +18,6 @@ const FormSchema = z.object({
 });
 
 const LoginModal = ({ isOpen, handleClose,callBackUrl = "/" }: LoginModalProps) => {
-  const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
