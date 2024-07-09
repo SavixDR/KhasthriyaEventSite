@@ -2,6 +2,10 @@
 
 import { useState } from "react";
 import CheckoutModal from "../CheckoutModal";
+import { Event } from "@/types";
+
+
+  
 
 const CheckoutButton = () => {
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
@@ -22,6 +26,7 @@ const CheckoutButton = () => {
 			</a>
 			{isCheckoutModalOpen && (
 				<CheckoutModal
+				
 					isOpen={isCheckoutModalOpen}
 					handleClose={() => setIsCheckoutModalOpen(false)}
 				/>

@@ -13,13 +13,13 @@ import EventHero from "./eventHero";
 const Booking = async ({ params }: { params: { eventId: String } }) => {
 	const session = await getServerSession(options);
 
-	if (!session) {
-		const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
-		redirect(
-			`${baseUrl}/api/auth/signin?callbackUrl=/events/${params.eventId}`
-		);
-		return null;
-	}
+	// if (!session) {
+	// 	const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+	// 	redirect(
+	// 		`${baseUrl}/api/auth/signin?callbackUrl=/events/${params.eventId}`
+	// 	);
+	// 	return null;
+	// }
 
 	const event = events.find((event) => event.eventId === '1');
 
@@ -112,7 +112,7 @@ const Booking = async ({ params }: { params: { eventId: String } }) => {
 										<p className="text-white text-xl">10000 LKR</p>
 									</div>
 
-									<CheckoutButton />
+									<CheckoutButton  />
 								</div>
 							</div>
 						</div>
