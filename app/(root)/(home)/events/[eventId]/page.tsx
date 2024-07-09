@@ -9,36 +9,54 @@ import { options } from "@/app/api/auth/[...nextauth]/options";
 import CheckoutButton from "@/components/Buttons/CheckoutButton";
 import { redirect, useRouter } from "next/navigation";
 import EventHero from "./eventHero";
+import { Session } from "next-auth";
+import { db } from "@/lib/db";
+import { Artist, TicketDetails } from "@prisma/client";
 
-const Booking = async ({ params }: { params: { eventId: String } }) => {
-	const session = await getServerSession(options);
+const Booking = async ({ params }: { params: { eventId: string } }) => {
+	const session: Session | null = await getServerSession(options);
 
-	if (!session) {
-		const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
-		redirect(
-			`${baseUrl}/api/auth/signin?callbackUrl=/events/${params.eventId}`
-		);
-		return null;
-	}
-
-	const event = events.find((event) => event.eventId === '1');
+	// if (!session) {
+	// 	const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
+	// 	redirect(
+	// 		`${baseUrl}/api/auth/signin?callbackUrl=/events/${params.eventId}`
+	// 	);
+	// }
+	const event = await db.event.findUnique({
+		where: { eventId: parseInt(params.eventId, 10) },
+		include: { artists: true, ticketDetails: true },
+	});
+	console.log("Event Retrieved from DB", event);
 
 	if (!event) {
 		return <div className="text-white">Event not found</div>;
 	}
+
+	var {artists, ticketDetails, ...eventWithoutTicketandArtists} = event;
+	
+	// to sort the ticket prices in ascending order
+	 ticketDetails = ticketDetails.sort((a,b) => a.ticketPrice-b.ticketPrice);
 
 	return (
 		<div className="wrapper bg-[#1a1a1a]">
 			<div className="wallpaper w-full">
 				<img
 					className="wallpaperimg w-full h-full object-cover"
-					src={event.poster}
-					alt={event.title}
+					src={event.eventPosterUrl}
+					alt={event.eventName}
 				/>
 			</div>
 
 			<div className="details flex justify-center bg-black flex-col items-center w-full   ">
-				<EventHero event={event} />
+				<EventHero
+					event={{
+						eventId: event.eventId.toString(),
+						date: event.eventDate,
+						poster: event.eventPosterUrl,
+						title: event.eventName,
+						venue: event.eventVenue,
+					}}
+				/>
 
 				<div className="w-full -mt-[200px] h-[1000px]">
 					<div className="px-10 mt-20 bg-black">
@@ -46,18 +64,18 @@ const Booking = async ({ params }: { params: { eventId: String } }) => {
 							Featured Artists
 						</h1>
 						<div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6">
-							{artists.map((artist, index) => (
+							{artists.map((artist:Artist) => (
 								<div
-									key={index}
+									key={artist.artistId}
 									className="my-10 flex items-center flex-col"
 								>
 									<img
-										src={artist.imgUrl}
-										alt={artist.name}
+										src={artist.artistImageUrl}
+										alt={artist.artistName}
 										className="w-32 h-32 rounded-full object-cover mb-4"
 									/>
 									<p className="text-white text-center text-lg">
-										{artist.name}
+										{artist.artistName}
 									</p>
 								</div>
 							))}
@@ -70,7 +88,7 @@ const Booking = async ({ params }: { params: { eventId: String } }) => {
 								Mark your calendar for
 							</h1>
 
-							<Countdown date="July 30 2024 00:04:30" />
+							<Countdown date={event.eventDate} />
 
 							<div className="max-w-[500px] mt-10 md:px-10 lg:px-10">
 								{" "}
@@ -97,22 +115,23 @@ const Booking = async ({ params }: { params: { eventId: String } }) => {
 
 							<div className="bg-[#151515] w-full h-full rounded-xl flex flex-col justify-center ">
 								<div className="px-20 mt-5">
-									<div className="flex justify-between border-b border-neutral-700 px-10 py-5">
-										<p className="text-white text-xl">General</p>
-										<p className="text-white text-xl">2500 LKR</p>
-									</div>
+									{ticketDetails.map((ticket: TicketDetails) => (
+										<div
+											id={ticket.ticketId}
+											className="flex justify-between border-b border-neutral-700 px-10 py-5"
+										>
+											<p className="text-white text-xl">{ticket.ticketType}</p>
+											<p className="text-white text-xl">
+												{ticket.ticketPrice} LKR
+											</p>
+										</div>
+									))}
 
-									<div className="flex justify-between border-b px-10 py-5 border-neutral-700">
-										<p className="text-white text-xl">VIP</p>
-										<p className="text-white text-xl">5000 LKR</p>
-									</div>
-
-									<div className="flex justify-between px-10 py-5 border-neutral-700">
-										<p className="text-white text-xl">VVIP</p>
-										<p className="text-white text-xl">10000 LKR</p>
-									</div>
-
-									<CheckoutButton />
+									<CheckoutButton
+										session={session}
+										event={eventWithoutTicketandArtists}
+										ticketDetails={ticketDetails}
+									/>
 								</div>
 							</div>
 						</div>

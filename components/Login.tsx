@@ -21,7 +21,7 @@ const Login = () => {
 					{/* <button className='px-5 py-2 border-2 border-white rounded-md' onClick={toggleLoginForm}>Login</button>    */}
 					<button
 						className="rounded-xl font-bold bg-[#FFD700] px-5 py-2.5 text-sm text-gray-700 hover:text-black shadow hover:bg-[#ddc74a]"
-						onClick={() => signOut()}
+						onClick={() => signOut({redirect: false})}
 					>
 						Log out
 					</button>

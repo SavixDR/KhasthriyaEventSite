@@ -47,16 +47,17 @@ export const options: NextAuthOptions = {
         },
       },
       async authorize(credentials, req) {
-        console.log("Authorizing credentials", credentials, req)
+        console.log("Authorizing credentials", credentials)
 
         if(!credentials?.email || !credentials?.password){
+          console.log("Email or Password is missing.....")
           return null;
         } 
 
         const existingUser = await db.user.findUnique({
           where: {email: credentials?.email}
         })
-
+        console.log("Existing User: ", existingUser)
         if (!existingUser) {
           console.log("User not found from this email.")
           return null;
