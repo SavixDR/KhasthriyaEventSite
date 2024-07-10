@@ -11,14 +11,14 @@ import { compare } from "bcrypt";
 export const options: NextAuthOptions = {
   pages: {},
   secret: process.env.NEXTAUTH_SECRET,
-	session: {
-		strategy: "jwt",
-    maxAge: 7 * 24 * 60 * 60, //7 days
-	},
-	providers: [
-		Google({
-			clientId: process.env.GOOGLE_CLIENT_ID ?? "",
-			clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
+  session: {
+    strategy: "jwt",
+    maxAge: 7 * 24 * 60 * 60, // 7 days
+  },
+  providers: [
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID ?? "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
       profile(profile) {
         console.log("Google profile:", profile);
         return {
@@ -29,19 +29,18 @@ export const options: NextAuthOptions = {
           nic: "",
         };
       }
-		}),
-		EmailProvider({
-			server: process.env.EMAIL_SERVER ?? "",
-			from: process.env.EMAIL_FROM ?? "",
-			sendVerificationRequest({
-				identifier: email,
-				url,
-				provider: { server, from },
-			}) {
-				sendVerificationRequest({ identifier: email, url, provider: { server, from }});
-			}
-            
-		}),
+    }),
+    EmailProvider({
+      server: process.env.EMAIL_SERVER ?? "",
+      from: process.env.EMAIL_FROM ?? "",
+      sendVerificationRequest({
+        identifier: email,
+        url,
+        provider: { server, from },
+      }) {
+        sendVerificationRequest({ identifier: email, url, provider: { server, from }});
+      }
+    }),
     CredentialsProvider({
       name: "Credentials",
       credentials: {
@@ -59,13 +58,13 @@ export const options: NextAuthOptions = {
       async authorize(credentials, req) {
         console.log("Authorizing credentials", credentials)
 
-        if(!credentials?.email || !credentials?.password){
+        if (!credentials?.email || !credentials?.password) {
           console.log("Email or Password is missing.....")
           return null;
-        } 
+        }
 
         const existingUser = await db.user.findUnique({
-          where: {email: credentials?.email}
+          where: { email: credentials?.email }
         })
         console.log("Existing User: ", existingUser)
         if (!existingUser) {
@@ -73,15 +72,15 @@ export const options: NextAuthOptions = {
           return null;
         }
 
-        const passwordMatch  =await compare(
-					credentials.password,
-					existingUser.password
-				);
+        const passwordMatch = await compare(
+          credentials.password,
+          existingUser.password
+        );
 
         if (!passwordMatch) {
-					console.log("Username & Password does not match");
-					return null;
-				}
+          console.log("Username & Password does not match");
+          return null;
+        }
 
         return {
           id: `${existingUser.id}`,
@@ -92,20 +91,20 @@ export const options: NextAuthOptions = {
         }
       }
     })
-	],
-	adapter: PrismaAdapter(db),
+  ],
+  adapter: PrismaAdapter(db),
   callbacks: {
     async signIn({ user, account, profile }) {
       const existingUser = await db.user.findUnique({
-        where: { email: user.email? user.email : ""}
+        where: { email: user.email }
       });
 
       if (existingUser) {
         const accountLinked = await db.account.findUnique({
           where: {
-            provider_providerAccountId: {
-              provider: account? account.provider: "",
-              providerAccountId: account?account.providerAccountId: "",
+            providerId_providerAccountId: {
+              providerId: account.provider,
+              providerAccountId: account.providerAccountId,
             },
           },
         });
@@ -114,13 +113,14 @@ export const options: NextAuthOptions = {
           await db.account.create({
             data: {
               userId: existingUser.id,
-              provider: account? account.provider: "",
-              providerAccountId: account?account.providerAccountId: "",
-              refresh_token: account?.refresh_token,
-              access_token: account?.access_token,
-              expires_at: account?.expires_at
+              providerType: account.type,
+              providerId: account.provider,
+              providerAccountId: account.providerAccountId,
+              refreshToken: account.refresh_token,
+              accessToken: account.access_token,
+              accessTokenExpires: account.expires_at
                 ? new Date(account.expires_at * 1000)
-                : "",
+                : null,
             },
           });
         }
@@ -130,42 +130,42 @@ export const options: NextAuthOptions = {
 
       return true;
     },
-    async jwt({token, user}){
-      if(user){
-        let exisitingUser = await db.user.findUnique({
-          where: {email: user.email? user.email : ""}
+    async jwt({ token, user }) {
+      if (user) {
+        let existingUser = await db.user.findUnique({
+          where: { email: user.email }
         });
 
-        if (!exisitingUser && user.email) {
-          exisitingUser = await db.user.create({
-              data: {
-                email: user.email,
-                username: user.username,
-                image: user.image,
-                NIC: user.nic? user.nic : "",
-                password: "",
-              }
+        if (!existingUser && user.email) {
+          existingUser = await db.user.create({
+            data: {
+              email: user.email,
+              username: user.username,
+              image: user.image,
+              NIC: user.nic ? user.nic : "",
+              password: "",
+            }
           })
         }
 
-        return{
+        return {
           ...token,
-          userId: exisitingUser?.id,
-          username: exisitingUser?.username,
-          nic: exisitingUser?.NIC,
-          image: exisitingUser?.image,
+          userId: existingUser?.id,
+          username: existingUser?.username,
+          nic: existingUser?.NIC,
+          image: existingUser?.image,
         }
       }
       return token;
     },
 
-    async session({session,token}){ 
+    async session({ session, token }) {
       return {
         ...session,
         user: {
           ...session.user,
           id: token.userId,
-          username:token.username,
+          username: token.username,
           nic: token.nic,
         }
       }
