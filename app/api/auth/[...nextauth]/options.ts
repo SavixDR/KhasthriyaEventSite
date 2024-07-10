@@ -29,6 +29,16 @@ export const options: NextAuthOptions = {
           nic: "",
         };
       }
+      profile(profile) {
+        console.log("Google profile:", profile);
+        return {
+          id: profile.sub,
+          username: profile.name,
+          email: profile.email,
+          image: profile.picture,
+          nic: "",
+        };
+      }
 		}),
 		EmailProvider({
 			server: process.env.EMAIL_SERVER ?? "",
