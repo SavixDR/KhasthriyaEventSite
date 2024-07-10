@@ -29,16 +29,6 @@ export const options: NextAuthOptions = {
           nic: "",
         };
       }
-      profile(profile) {
-        console.log("Google profile:", profile);
-        return {
-          id: profile.sub,
-          username: profile.name,
-          email: profile.email,
-          image: profile.picture,
-          nic: "",
-        };
-      }
 		}),
 		EmailProvider({
 			server: process.env.EMAIL_SERVER ?? "",
@@ -128,9 +118,7 @@ export const options: NextAuthOptions = {
               providerAccountId: account?account.providerAccountId: "",
               refresh_token: account?.refresh_token,
               access_token: account?.access_token,
-              expires_at: account?.expires_at
-                ? new Date(account.expires_at * 1000)
-                : "",
+              ...(account?.expires_at && { expires_at: new Date(account.expires_at * 1000) })
             },
           });
         }

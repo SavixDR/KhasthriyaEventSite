@@ -22,7 +22,7 @@ model Account {
   token_type         String?
   refresh_token      String?   @db.Text
   access_token       String?   @db.Text
-  expires_at         DateTime
+  expires_at         DateTime?
   scope              String?
   id_token           String? @db.Text
   createdAt          DateTime  @default(now())
