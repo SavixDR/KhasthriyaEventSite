@@ -1,25 +1,24 @@
 import React, { useState } from "react";
-import { motion} from "framer-motion";
+import { motion } from "framer-motion";
 import Link from "next/link";
-import CheckoutModal from "./CheckoutModal";
+
 import LoginModal from "./LoginModal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 const ComingShow = () => {
-	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
-  const router = useRouter();
-  const session = useSession();
+	const router = useRouter();
+	const session = useSession();
 
-  const eventId = 1;
+	const eventId = 1;
 
-  const handleTicketBooking = () => {
-    if (session.data?.user) {
-      router.push(`/events/${eventId}`);
-    } else {
-      setIsLoginModalOpen(true);
-    }
-  }
+	const handleTicketBooking = () => {
+		if (session.data?.user) {
+			router.push(`/events/${eventId}`);
+		} else {
+			setIsLoginModalOpen(true);
+		}
+	};
 
 	return (
 		<div className="relative px-5 md:px-10">
@@ -48,7 +47,7 @@ const ComingShow = () => {
 								blandit. A lacus vestibulum sed arcu non odio euismod.
 							</motion.p>
 
-							{/* <Link href={`/events/${eventId}`}>
+							<Link href={`/events/${eventId}`}>
 								<motion.div
 									initial={{ x: 0, opacity: 0 }}
 									whileInView={{ x: 0, opacity: 1 }}
@@ -57,28 +56,27 @@ const ComingShow = () => {
 								>
 									Book Tickets!
 								</motion.div>
-							</Link> */}
-              
-							<button onClick={handleTicketBooking}>
-							  	<motion.div
-  									initial={{ x: 0, opacity: 0 }}
-  									whileInView={{ x: 0, opacity: 1 }}
-  									transition={{ duration: 4, delay: 0.5 }}
-  									className="inline-block rounded-full bg-[#FFD700] px-6 py-4 text-center font-bold text-black transition hover:border-black hover:bg-white"
-  								>
-  									Book Tickets!
-  								</motion.div>
-  							
-							</button>
+							</Link>
+
+							{/* <button onClick={handleTicketBooking}>
+								<motion.div
+									initial={{ x: 0, opacity: 0 }}
+									whileInView={{ x: 0, opacity: 1 }}
+									transition={{ duration: 4, delay: 0.5 }}
+									className="inline-block rounded-full bg-[#FFD700] px-6 py-4 text-center font-bold text-black transition hover:border-black hover:bg-white"
+								>
+									Book Tickets!
+								</motion.div>
+							</button> */}
 						</motion.div>
 					</div>
-					{isLoginModalOpen && (
+					{/* {isLoginModalOpen && (
 						<LoginModal
 							isOpen={isLoginModalOpen}
 							handleClose={() => setIsLoginModalOpen(false)}
-              callBackUrl={`/events/${eventId}`}
+							callBackUrl={`/events/${eventId}`}
 						/>
-					)}
+					)} */}
 					{/* Image Div */}
 					<motion.div
 						initial={{ x: 100, opacity: 0 }}

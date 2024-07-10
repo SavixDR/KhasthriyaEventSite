@@ -1,39 +1,29 @@
-import stripe from 'stripe'
-import { NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from "next/server";
 
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY)
 
-export async function POST(request: Request) {
-  const body = await request.text()
+export async function POST(request:NextRequest){
 
-  const sig = request.headers.get('stripe-signature') as string
-  const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!
+try {
 
-  let event
+    const {amount} = await request.json()
 
-  try {
-    event = stripe.webhooks.constructEvent(body, sig, endpointSecret)
-  } catch (err) {
-    return NextResponse.json({ message: 'Webhook error', error: err })
-  }
+    const paymentIntent = await stripe.paymentIntents.create({
+        amount:amount,
+        currency:'lkr',
+        automatic_payment_methods:{enabled:true}
+    })
 
-  // Get the ID and type
-  const eventType = event.type
+    return (NextResponse.json({clientSecret:paymentIntent.client_secret}))
+    
+} catch (error) {
+    console.error("Internal Error",error);
 
-  // CREATE
-  if (eventType === 'checkout.session.completed') {
-    const { id, amount_total, metadata } = event.data.object
+    return NextResponse.json({
+        error:"Internal server error",
+        status:500
+    })
+    
+}
 
-    const order = {
-      stripeId: id,
-      eventId: metadata?.eventId || '',
-      buyerId: metadata?.buyerId || '',
-      totalAmount: amount_total ? (amount_total / 100).toString() : '0',
-      createdAt: new Date(),
-    }
-
-    //  await createOrUpdateOrder(order)
-    return NextResponse.json({ message: 'OK'})
-  }
-
-  return new Response('', { status: 200 })
 }
