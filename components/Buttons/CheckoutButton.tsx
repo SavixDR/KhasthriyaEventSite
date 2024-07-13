@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 import CheckoutModal from "../CheckoutModal";
@@ -6,11 +6,19 @@ import { Session } from "next-auth";
 import LoginModal from "../LoginModal";
 import { Event, TicketDetails } from "@prisma/client";
 
-const CheckoutButton = ({session,event,ticketDetails}:{session:Session|null, event:Event,ticketDetails:TicketDetails[]}) => {
+const CheckoutButton = ({
+	session,
+	event,
+	ticketDetails,
+}: {
+	session: Session | null;
+	event: Event;
+	ticketDetails: TicketDetails[];
+}) => {
 	const [isCheckoutModalOpen, setIsCheckoutModalOpen] = useState(false);
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 
-	console.log("session: ",session);
+	console.log("session: ", session);
 
 	const handleTicketBooking = () => {
 		if (session?.user) {
@@ -37,18 +45,18 @@ const CheckoutButton = ({session,event,ticketDetails}:{session:Session|null, eve
 				<CheckoutModal
 					isOpen={isCheckoutModalOpen}
 					handleClose={() => setIsCheckoutModalOpen(false)}
-					ticketDetails={ticketDetails}	
+					ticketDetails={ticketDetails}
 					user={session?.user}
 					eventName={event.eventName}
 				/>
 			)}
 			{isLoginModalOpen && (
-						<LoginModal
-							isOpen={isLoginModalOpen}
-							handleClose={() => setIsLoginModalOpen(false)}
-							callBackUrl={`/events/${event.eventId}`}
-						/>
-					)}
+				<LoginModal
+					isOpen={isLoginModalOpen}
+					handleClose={() => setIsLoginModalOpen(false)}
+					callBackUrl={`/events/${event.eventId}`}
+				/>
+			)}
 		</div>
 	);
 };

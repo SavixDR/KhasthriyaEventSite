@@ -7,28 +7,28 @@ import { createTransport } from "nodemailer";
 import { db } from "@/lib/db";
 import { compare } from "bcrypt";
 
-
 export const options: NextAuthOptions = {
-  pages: {},
-  secret: process.env.NEXTAUTH_SECRET,
+	pages: { signIn: "/" },
+	secret: process.env.NEXTAUTH_SECRET,
 	session: {
 		strategy: "jwt",
-    maxAge: 7 * 24 * 60 * 60, //7 days
+		// maxAge: 60, //7 days
+		maxAge: 7 * 24 * 60 * 60, //7 days
 	},
 	providers: [
 		Google({
 			clientId: process.env.GOOGLE_CLIENT_ID ?? "",
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
-      profile(profile) {
-        console.log("Google profile:", profile);
-        return {
-          id: profile.sub,
-          username: profile.name,
-          email: profile.email,
-          image: profile.picture,
-          nic: "",
-        };
-      }
+			profile(profile) {
+				// console.log("Google profile:", profile);
+				return {
+					id: profile.sub,
+					username: profile.name,
+					email: profile.email,
+					image: profile.picture,
+					nic: "",
+				};
+			},
 		}),
 		EmailProvider({
 			server: process.env.EMAIL_SERVER ?? "",
@@ -38,177 +38,219 @@ export const options: NextAuthOptions = {
 				url,
 				provider: { server, from },
 			}) {
-				sendVerificationRequest({ identifier: email, url, provider: { server, from }});
-			}
-            
+				sendVerificationRequest({
+					identifier: email,
+					url,
+					provider: { server, from },
+				});
+			},
 		}),
-    CredentialsProvider({
-      name: "Credentials",
-      credentials: {
-        email: {
-          label: "Email",
-          type: "email",
-          placeholder: "Enter your email",
-        },
-        password: {
-          label: "Password",
-          type: "password",
-          placeholder: "********",
-        },
-      },
-      async authorize(credentials, req) {
-        console.log("Authorizing credentials", credentials)
+		CredentialsProvider({
+			name: "Credentials",
+			credentials: {
+				email: {
+					label: "Email",
+					type: "email",
+					placeholder: "Enter your email",
+				},
+				password: {
+					label: "Password",
+					type: "password",
+					placeholder: "********",
+				},
+			},
+			async authorize(credentials, req) {
+				console.log("Authorizing credentials", credentials);
 
-        if(!credentials?.email || !credentials?.password){
-          console.log("Email or Password is missing.....")
-          return null;
-        } 
+				if (!credentials?.email || !credentials?.password) {
+					console.log("Email or Password is missing.....");
+					return null;
+				}
 
-        const existingUser = await db.user.findUnique({
-          where: {email: credentials?.email}
-        })
-        console.log("Existing User: ", existingUser)
-        if (!existingUser) {
-          console.log("User not found from this email.")
-          return null;
-        }
+				const existingUser = await db.user.findUnique({
+					where: { email: credentials?.email },
+				});
+				console.log("Existing User: ", existingUser);
+				if (!existingUser || !existingUser?.password) {
+					console.log("User not found from this email.");
+					return null;
+				}
 
-        const passwordMatch  =await compare(
+				const passwordMatch = await compare(
 					credentials.password,
-					existingUser.password
+					existingUser.password ?? ""
 				);
 
-        if (!passwordMatch) {
+				if (!passwordMatch) {
 					console.log("Username & Password does not match");
 					return null;
 				}
 
-        return {
-          id: `${existingUser.id}`,
-          username: existingUser?.username ?? "",
-          nic: existingUser?.NIC ?? "",
-          email: existingUser?.email ?? "",
-          image: existingUser?.image ?? "",
-        }
-      }
-    })
+				return {
+					id: `${existingUser.id}`,
+					username: existingUser?.username ?? "",
+					nic: existingUser?.nic ?? "",
+					email: existingUser?.email ?? "",
+					image: existingUser?.image ?? "",
+				};
+			},
+		}),
 	],
 	adapter: PrismaAdapter(db),
-  callbacks: {
-    async signIn({ user, account, profile }) {
-      const existingUser = await db.user.findUnique({
-        where: { email: user.email? user.email : ""}
-      });
+	callbacks: {
+		async signIn({ user, account, profile }) {
+			console.log("Sign In Callback", user, account, profile);
+			if (account?.provider == "google") {
+        
+				const existingUser = await db.user.findUnique({
+					where: { email: user.email ? user.email : "" },
+				});
 
-      if (existingUser) {
-        const accountLinked = await db.account.findUnique({
-          where: {
-            provider_providerAccountId: {
-              provider: account? account.provider: "",
-              providerAccountId: account?account.providerAccountId: "",
-            },
-          },
-        });
+				if (existingUser) {
+					const accountLinked = await db.account.findUnique({
+						where: {
+							provider_providerAccountId: {
+								provider: account ? account.provider : "",
+								providerAccountId: account ? account.providerAccountId : "",
+							},
+						},
+					});
 
-        if (!accountLinked) {
-          await db.account.create({
-            data: {
-              userId: existingUser.id,
-              provider: account? account.provider: "",
-              providerAccountId: account?account.providerAccountId: "",
-              refresh_token: account?.refresh_token,
-              access_token: account?.access_token,
-              ...(account?.expires_at && { expires_at: new Date(account.expires_at * 1000) })
-            },
-          });
-        }
+					if (!accountLinked) {
+						console.log("Creating account with data:", {
+							userId: existingUser.id,
+							provider: account ? account.provider : "",
+							providerAccountId: account ? account.providerAccountId : "",
+							refresh_token: account?.refresh_token,
+							access_token: account?.access_token,
+							expires_at: account?.expires_at
+								? new Date(account.expires_at * 1000)
+								: null,
+							scope: account?.scope,
+							token_type: account?.token_type,
+							id_token: account?.id_token,
+						});
 
-        return true;
-      }
+						await db.account.create({
+							data: {
+								userId: existingUser.id,
+								provider: account ? account.provider : "",
+								providerAccountId: account ? account.providerAccountId : "",
+								refresh_token: account?.refresh_token,
+								access_token: account?.access_token,
+								expires_at: account?.expires_at
+									? account.expires_at * 1000
+									: null,
+							},
+						});
+						console.log("Account created successfully.");
 
-      return true;
-    },
-    async jwt({token, user}){
-      if(user){
-        let exisitingUser = await db.user.findUnique({
-          where: {email: user.email? user.email : ""}
-        });
+						await db.user.update({
+							data: {
+								image: user?.image,
+							},
+							where: { id: existingUser.id },
+						});
+					}
+				}
 
-        if (!exisitingUser && user.email) {
-          exisitingUser = await db.user.create({
-              data: {
-                email: user.email,
-                username: user.username,
-                image: user.image,
-                NIC: user.nic? user.nic : "",
-                password: "",
-              }
-          })
-        }
+				return true;
+			}
+			console.log("Sign in successfull.");
+			return true;
+		},
+		async redirect({ url, baseUrl }) {
+			// Allows relative callback URLs
+			console.log("Redirect Callback URL: ", url, baseUrl);
+			if (url.startsWith("/")) return `${baseUrl}${url}`;
 
-        return{
-          ...token,
-          userId: exisitingUser?.id,
-          username: exisitingUser?.username,
-          nic: exisitingUser?.NIC,
-          image: exisitingUser?.image,
-        }
-      }
-      return token;
-    },
+			// Allows callback URLs on the same origin
+			if (new URL(url).origin === baseUrl) return url;
 
-    async session({session,token}){ 
-      return {
-        ...session,
-        user: {
-          ...session.user,
-          id: token.userId,
-          username:token.username,
-          nic: token.nic,
-        }
-      }
-    }
-  }
+			return baseUrl;
+		},
+		async jwt({ token, user }) {
+			if (user) {
+				console.log("JWT Callback: ", user, token);
+				let exisitingUser = await db.user.findUnique({
+					where: { email: user.email ? user.email : "" },
+				});
+
+				if (!exisitingUser && user.email) {
+					exisitingUser = await db.user.create({
+						data: {
+							email: user.email,
+							username: user.username,
+							image: user.image,
+							nic: user.nic ? user.nic : "",
+							password: "",
+						},
+					});
+				}
+
+				return {
+					...token,
+					userId: exisitingUser?.id,
+					username: exisitingUser?.username,
+					nic: exisitingUser?.nic,
+					image: exisitingUser?.image,
+				};
+			}
+			return token;
+		},
+
+		async session({ session, token }) {
+			return {
+				...session,
+				user: {
+					...session.user,
+					id: token.userId,
+					username: token.username,
+					nic: token.nic,
+				},
+			};
+		},
+	},
 };
 
 async function sendVerificationRequest(params: {
-  identifier: any;
-  url: any;
-  provider: any;
+	identifier: any;
+	url: any;
+	provider: any;
 }) {
-  const { identifier, url, provider } = params;
-  const { host } = new URL(url);
-  // NOTE: You are not required to use `nodemailer`, use whatever you want.
-  const transport = createTransport(provider.server);
-  const result = await transport.sendMail({
-    to: identifier,
-    from: provider.from,
-    subject: `Sign in to ${host}`,
-    text: text({ url, host }),
-    html: html({ url, host }),
-  });
-  const failed = result.rejected.concat(result.pending).filter(Boolean);
-  if (failed.length) {
-    throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`);
-  }
+	const { identifier, url, provider } = params;
+	const { host } = new URL(url);
+	// NOTE: You are not required to use `nodemailer`, use whatever you want.
+	const transport = createTransport(provider.server);
+	const result = await transport.sendMail({
+		to: identifier,
+		from: provider.from,
+		subject: `Sign in to ${host}`,
+		text: text({ url, host }),
+		html: html({ url, host }),
+	});
+	const failed = result.rejected.concat(result.pending).filter(Boolean);
+	if (failed.length) {
+		throw new Error(`Email(s) (${failed.join(", ")}) could not be sent`);
+	}
 }
 
 function html(params: { url: string; host: string }) {
-  const { url, host } = params;
+	const { url, host } = params;
 
-  const escapedHost = host.replace(/\./g, "&#8203;.");
+	const escapedHost = host.replace(/\./g, "&#8203;.");
 
-  const brandColor = "#346df1";
-  const color = {
-    background: "#f9f9f9",
-    text: "#444",
-    mainBackground: "#fff",
-    buttonBackground: brandColor,
-    buttonBorder: brandColor,
-    buttonText: "#fff",
-  };
+	const brandColor = "#346df1";
+	const color = {
+		background: "#f9f9f9",
+		text: "#444",
+		mainBackground: "#fff",
+		buttonBackground: brandColor,
+		buttonBorder: brandColor,
+		buttonText: "#fff",
+	};
 
-  return `
+	return `
   <body style="background: ${color.background};">
     <table width="100%" border="0" cellspacing="20" cellpadding="0"
       style="background: ${color.mainBackground}; max-width: 600px; margin: auto; border-radius: 10px;">
@@ -243,5 +285,5 @@ function html(params: { url: string; host: string }) {
 
 /** Email Text body (fallback for email clients that don't render HTML, e.g. feature phones) */
 function text({ url, host }: { url: string; host: string }) {
-  return `Sign in to ${host}\n${url}\n\n`;
+	return `Sign in to ${host}\n${url}\n\n`;
 }
