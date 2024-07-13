@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
 import React, { useEffect, useRef, useState } from "react";
-import './Countdown.css'
+import "./Countdown.css";
 
 const Countdown = ({ date }) => {
   const [days, setDays] = useState("00");
@@ -16,7 +16,9 @@ const Countdown = ({ date }) => {
     const now = new Date().getTime();
     const distance = Countdowndate - now;
     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const hours = Math.floor(
+      (distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
+    );
     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
     const seconds = Math.floor((distance % (1000 * 60)) / 1000);
     return { days, hours, minutes, seconds };
@@ -39,7 +41,7 @@ const Countdown = ({ date }) => {
   }, [date]);
 
   return (
-    <div className="flex">
+    <div className="flex  mx-auto">
       <section>
         <p className="label">days</p>
         <p className="value">{days}</p>

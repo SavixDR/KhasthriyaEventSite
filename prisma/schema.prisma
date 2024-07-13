@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -59,12 +53,12 @@ model User {
   id        String      @id @default(uuid())
   email     String      @unique
   username  String      @unique
-  NIC       String
-  emailVerified DateTime? @map("email_verified")
-  password  String
-  image     String      @default("https://res.cloudinary.com/dx3x66zpi/image/upload/v1633660134/Eventify/default-user-image.jpg")
+
+  NIC       String      @unique
+
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+  password  String
   eventUser eventUser[]
   accounts      Account[]
   sessions      Session[]
@@ -92,14 +86,14 @@ model TicketDetails {
 }
 
 model eventUser {
-  orderId         String        @id @default(uuid())
-  numberOfTickets Int
   eventId         Int
   userId          String
   ticketId        String
+  numberOfTickets Int
+  orderId         String        @id @default(uuid())
   event           Event         @relation(fields: [eventId], references: [eventId])
-  user            User          @relation(fields: [userId], references: [id])
   ticket          TicketDetails @relation(fields: [ticketId], references: [ticketId])
+  user            User          @relation(fields: [userId], references: [id])
 }
 
 model Artist {
