@@ -13,10 +13,10 @@ interface TicketPrices {
 
 interface CheckoutOrderProps {
   ticketList: TicketPrices;
-  totalAmount: string;
+  totalAmount: number;
   eventTitle: string;
-   buyer:User
-  eventImage:string
+  buyer: User;
+  eventImage: string;
 }
 
 const CheckoutPage = ({ order }: { order: CheckoutOrderProps }) => {
@@ -58,7 +58,9 @@ const CheckoutPage = ({ order }: { order: CheckoutOrderProps }) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.localhost:3000/payment-success?order=${encodeURIComponent(JSON.stringify(order))}`,
+        return_url: `http://www.localhost:3000/payment-success?order=${encodeURIComponent(
+          JSON.stringify(order)
+        )}`,
       },
     });
 
@@ -74,7 +76,10 @@ const CheckoutPage = ({ order }: { order: CheckoutOrderProps }) => {
   if (!clientSecret || !stripe || !elements) {
     return (
       <div className="flex items-center justify-center">
-        <div className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white" role="status">
+        <div
+          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-e-transparent align-[-0.125em] text-surface motion-reduce:animate-[spin_1.5s_linear_infinite] dark:text-white"
+          role="status"
+        >
           <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
             Loading...
           </span>
@@ -84,40 +89,60 @@ const CheckoutPage = ({ order }: { order: CheckoutOrderProps }) => {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white p-4 rounded-md flex">
-      {/* Left side: Event details */}
-      <div className="w-1/2 pr-8">
-        <h2 className="text-2xl font-bold mb-4">{order.eventTitle}</h2>
-        <h2>{order.buyer?.email}</h2>
-        <div className="border-t border-gray-200 pt-4">
-          <h3 className="text-lg font-semibold mb-2">Ticket Details:</h3>
-         <img src={order.eventImage} height={100} width={100} alt="" />
-          <ul className="list-disc list-inside">
-            {Object.entries(order.ticketList).map(([ticketType, quantity]) => (
-              <li key={ticketType} className="mb-2">
-                <span className="font-medium">{ticketType}:</span> {quantity}
-              </li>
-            ))}
-          </ul>
-        </div>
-        {/* Add other details as needed */}
-      </div>
-
-      {/* Right side: Payment element and Pay button */}
-      <div className="w-1/2 p-4 flex flex-col justify-between">
-        <div>
-          <PaymentElement />
-          {errorMessage && <div className="text-red-500 mt-2">{errorMessage}</div>}
-        </div>
-        <button
-          type="submit"
-          disabled={!stripe || loading}
-          className="text-white w-full p-4 bg-black mt-4 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse hover:bg-gray-900 focus:outline-none focus:ring focus:ring-gray-300"
+    <div className="bg-black w-full h-screen flex justify-center items-center">
+      <form
+     
+        onSubmit={handleSubmit}
+        className="bg-[#1a1a1a] w-[75%] h-[75vh]  rounded-md flex"
+      >
+        {/* Left side: Event details */}
+        <div
+         style={{backgroundImage:`url(${order.eventImage})` , backgroundSize:'contain'}}
+          
+          className="w-1/2 pr-8 m-4 rounded-md sm:hidden lg:block"
         >
-          {!loading ? `Pay ${order.totalAmount}LKR` : "Processing..."}
-        </button>
-      </div>
-    </form>
+          
+         
+          <div className=" pt-4">
+           
+
+           
+          </div>
+          {/* Add other details as needed */}
+        </div>
+
+        {/* Right side: Payment element and Pay button */}
+        <div className=" sm:w-full lg:w-1/2 p-4  flex flex-col justify-between">
+          <div>
+          <h2 className="text-2xl text-[#ffd700] font-bold mb-4">{order.eventTitle}</h2>
+          
+          <table className="my-4 w-full text-white">
+  
+  <tbody>
+    {Object.entries(order.ticketList).map(([ticketType, quantity]) => (
+      <tr key={ticketType} className="border-b border-neutral-700">
+        <td className="p-2">{ticketType}</td>
+        <td className="p-2">{quantity} tickets</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
+
+            <PaymentElement  />
+            {errorMessage && (
+              <div className="text-red-500 mt-2">{errorMessage}</div>
+            )}
+          </div>
+          <button
+            type="submit"
+            disabled={!stripe || loading}
+            className="text-black w-full p-3 bg-[#ffd700] mt-3 rounded-md font-bold disabled:opacity-50 disabled:animate-pulse hover:bg-[#c9ac02] focus:outline-none focus:ring focus:ring-black"
+          >
+            {!loading ? `Pay ${order.totalAmount}LKR` : "Processing..."}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

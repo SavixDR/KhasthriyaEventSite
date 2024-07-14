@@ -1,9 +1,10 @@
-'use client'
-import React from 'react';
+// components/StripeForm.tsx
+'use client';
 
-import { checkoutOrder } from '@/lib/purchase';
+import React, { useContext } from 'react';
 import { useRouter } from 'next/navigation';
 import { User } from '@prisma/client';
+import { OrderContext } from '@/app/context/orderContext';
 
 interface TicketPrices {
   [key: string]: number;
@@ -11,14 +12,21 @@ interface TicketPrices {
 
 interface StripeFormProps {
   ticketList: TicketPrices;
-  totalAmount: string;
+  totalAmount: number;
   eventName: string;
   buyer: User;
-  eventImage:string
+  eventImage: string;
 }
 
-const StripeForm = ({ ticketList, totalAmount, eventName, buyer ,eventImage}: StripeFormProps) => {
-  const router = useRouter(); // Correct function call
+const StripeForm = ({ ticketList, totalAmount, eventName, buyer, eventImage }: StripeFormProps) => {
+  const router = useRouter();
+  const context = useContext(OrderContext);
+
+  if (!context) {
+    throw new Error('OrderContext is not available');
+  }
+
+  const { setOrder } = context;
 
   const onCheckout = async () => {
     const order = {
@@ -26,23 +34,23 @@ const StripeForm = ({ ticketList, totalAmount, eventName, buyer ,eventImage}: St
       buyer: buyer,
       totalAmount: totalAmount,
       ticketList: ticketList,
-      eventImage:eventImage
+      eventImage: eventImage,
     };
+
+    setOrder(order);
 
     console.log('Initiating checkout:', order);
 
-    router.push(`/checkout?order=${encodeURIComponent(JSON.stringify(order))}`); // Use template literals and encode the order
-
-    // await checkoutOrder(order); // Uncomment and use if checkoutOrder is needed
+    router.push(`/checkout`);
   };
 
   return (
     <div>
       <button
-        className='text-white'
+        className="text-white"
         onClick={(e) => {
-          e.preventDefault(); // Prevent default behavior
-          onCheckout(); // Call checkout function
+          e.preventDefault();
+          onCheckout();
         }}
       >
         Checkout

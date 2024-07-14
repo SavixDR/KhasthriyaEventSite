@@ -7,9 +7,11 @@ export async function POST(request:NextRequest){
 try {
 
     const {amount} = await request.json()
+    console.log(`Amount received: ${amount}`);
+    const convertedAmount = Math.round(amount * 100);
 
     const paymentIntent = await stripe.paymentIntents.create({
-        amount:amount,
+        amount:convertedAmount,
         currency:'lkr',
         automatic_payment_methods:{enabled:true}
     })

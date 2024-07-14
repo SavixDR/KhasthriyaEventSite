@@ -52,7 +52,7 @@ const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName,event
 		for (const ticketType in numTickets) {
 			totalAmount += ticketPrices[ticketType] * numTickets[ticketType];
 		}
-		return totalAmount.toString();
+		return totalAmount
 	};
 
 	const generateTableRows = () => {

@@ -1,8 +1,9 @@
 'use client'
 import { User } from '@prisma/client';
-import { useSearchParams } from 'next/navigation';
-import { useRouter } from 'next/router';
+import { useRouter, useSearchParams } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
+import Lottie from 'lottie-react';
+import tick from '../../../../tick.json';
 
 interface TicketPrices {
   [key: string]: number;
@@ -13,12 +14,14 @@ interface CheckoutOrderProps {
   totalAmount: string;
   eventTitle: string;
   buyer: User;
-  eventImage:string
+  eventImage: string;
 }
 
 const Page = () => {
+  const router = useRouter()
   const searchParams = useSearchParams();
   const [order, setOrder] = useState<CheckoutOrderProps | null>(null); // Initialize with null or appropriate default
+  const [animationPlayed, setAnimationPlayed] = useState(false);
 
   useEffect(() => {
     const getOrder = async () => {
@@ -36,23 +39,34 @@ const Page = () => {
     getOrder();
   }, [searchParams]);
 
+  useEffect(() => {
+    if (order && !animationPlayed) {
+      setAnimationPlayed(true);
+    }
+  }, [order, animationPlayed]);
+
   return (
-    <div>
+    <div className='bg-black text-white h-screen flex justify-center items-center'>
       {order ? (
-        <div>
-          <h2>Payment Successful!</h2>
-          <p>Event Title: {order.eventTitle}</p>
-          <p>Buyer Email: {order.buyer.email}</p>
-          <p>Total Amount: {order.totalAmount}</p>
+        <div className='text-center' >
+          {animationPlayed && <Lottie animationData={tick} loop={false} />}
+          <h2 className='text-center text-2xl font-semibold text-[#ffd700]'>Payment Successful!</h2>
+
+
+          {/* <p>Event Title: {order.eventTitle}</p>
+          <p>Buyer Email: {order.buyer.email}</p> */}
+          <p className='text-center text-[#ffd700] font-semibold text-xl'>{order.totalAmount} {" "}LKR</p>
           {/* Render ticketList if needed */}
-          <ul>
+          {/* <ul>
             {Object.keys(order.ticketList).map(ticketType => (
               <li key={ticketType}>
                 {ticketType}: {order.ticketList[ticketType]}
               </li>
             ))}
-          </ul>
+          </ul> */}
           {/* Display other order details as needed */}
+
+          <button className='px-4 py-2 mt-10 rounded-lg border-2 border-[#ffd700] text-[#FFD700] font-semibold' onClick={()=>router.push('/')}>Go to Home</button>
         </div>
       ) : (
         <div>Loading...</div>
