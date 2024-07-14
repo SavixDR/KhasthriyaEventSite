@@ -1,11 +1,16 @@
+import OrderContextProvider from "../context/orderContext";
+
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
-    <div>
+    <OrderContextProvider>
+      <div>
       <main>{children}</main>
     </div>
+    </OrderContextProvider>
+    
   );
 }

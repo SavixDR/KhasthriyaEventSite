@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import CheckoutModal from "./CheckoutModal";
+
 import LoginModal from "./LoginModal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";

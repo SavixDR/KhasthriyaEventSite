@@ -45,6 +45,7 @@ const CheckoutButton = ({
           ticketDetails={ticketDetails}
           user={session?.user}
           eventName={event.eventName}
+					eventImage={event.eventPosterUrl}
         />
       )}
       {isLoginModalOpen && (

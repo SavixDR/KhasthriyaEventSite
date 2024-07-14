@@ -14,12 +14,7 @@ import EventMoreInfo from "@/components/EventMoreInfo";
 const Booking = async ({ params }: { params: { eventId: string } }) => {
   const session: Session | null = await getServerSession(options);
 
-	// if (!session) {
-	// 	const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
-	// 	redirect(
-	// 		`${baseUrl}/api/auth/signin?callbackUrl=/events/${params.eventId}`
-	// 	);
-	// }
+
 	const event = await db.event.findUnique({
 		where: { eventId: parseInt(params.eventId, 10) },
 		include: { artists: true, ticketDetails: true },

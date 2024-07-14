@@ -50,18 +50,16 @@ model VerificationRequest {
 }
 
 model User {
-  id            String      @id @default(uuid())
-  email         String      @unique
-  username      String
-  nic           String?     @map("NIC")
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
-  password      String?      
-  image         String?     
-  emailVerified DateTime?   @map("email_verified")
-  sessions      Session[]
-  accounts      Account[]
-  eventUser     eventUser[]
+
+  id        String      @id @default(uuid())
+  email     String      @unique
+  username  String      @unique
+  NIC       String      @unique
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+  password  String
+  eventUser eventUser[]
+
 }
 
 model Event {
