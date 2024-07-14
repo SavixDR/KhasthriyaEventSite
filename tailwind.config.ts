@@ -10,6 +10,7 @@ const config: Config = {
     extend: {
       screens: {
         sm: "100px", // Set the 'sm' breakpoint to 100px
+        sm2: "550px",
       },
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

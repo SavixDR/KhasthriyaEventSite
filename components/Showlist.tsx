@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useRef } from "react";
 
 import { motion } from "framer-motion";
@@ -11,23 +13,20 @@ const Showlist = () => {
         Upcoming shows
       </h1>
 
-			<div className="md:max-w-screen-lg container  my-5 grid mx-auto gap-5 grid-cols-1 md:grid-cols-2  px-2 md:px-4 lg:px-10 py-5 ">
-				{events.map((event) => (
-					<motion.div
-						key={event.eventId}
-						initial={{ x: -100, opacity: 0 }}
-						whileInView={{ x: 0, opacity: 1 }}
-						transition={{ duration: 2 }}
-					>
-						<Show
-							key={event.eventId}
-							event={event}
-						/>
-					</motion.div>
-				))}
-			</div>
-		</div>
-	);
+      <div className="md:max-w-screen-lg container  my-5 grid mx-auto gap-5 grid-cols-1 md:grid-cols-2  px-2 md:px-4 lg:px-10 py-5 ">
+        {events.map((event) => (
+          <motion.div
+            key={event.eventId}
+            initial={{ x: -100, opacity: 0 }}
+            whileInView={{ x: 0, opacity: 1 }}
+            transition={{ duration: 2 }}
+          >
+            <Show key={event.eventId} event={event} />
+          </motion.div>
+        ))}
+      </div>
+    </div>
+  );
 };
 
 export default Showlist;
