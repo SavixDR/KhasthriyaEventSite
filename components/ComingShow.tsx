@@ -10,6 +10,7 @@ const ComingShow = () => {
 	const router = useRouter();
 	const session = useSession();
 
+
 	const eventId = 1;
 
 	const handleTicketBooking = () => {
@@ -94,6 +95,7 @@ const ComingShow = () => {
 			</div>
 		</div>
 	);
+
 };
 
 export default ComingShow;
