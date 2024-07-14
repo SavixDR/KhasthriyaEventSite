@@ -1,6 +1,7 @@
 import Modal from "@/utils/Modal";
 import { TicketDetails } from "@prisma/client";
 import React, { useState } from "react";
+import StripeForm from "./StripeForm";
 
 interface TicketPrices {
 	[key: string]: number;
@@ -12,9 +13,10 @@ interface CheckoutModalProps {
 	ticketDetails: TicketDetails[];
 	user: any;
 	eventName: string;
+	eventImage:string
 }
 
-const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName }: CheckoutModalProps) => {
+const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName,eventImage }: CheckoutModalProps) => {
 
 	const ticketPrices: TicketPrices = ticketDetails.reduce((acc, ticketDetail) => {
 		acc[ticketDetail.ticketType] = ticketDetail.ticketPrice;
@@ -50,7 +52,7 @@ const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName }: Ch
 		for (const ticketType in numTickets) {
 			totalAmount += ticketPrices[ticketType] * numTickets[ticketType];
 		}
-		return totalAmount.toFixed(2);
+		return totalAmount
 	};
 
 	const generateTableRows = () => {
@@ -181,15 +183,7 @@ const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName }: Ch
 						</table>
 
 						<div className="flex justify-center">
-							<button
-								type="submit"
-								className="group relative inline-block overflow-hidden border-2 rounded-lg border-[#FFD700] px-10 py-2 focus:outline-none focus:ring"
-							>
-								<span className="absolute inset-y-0 left-0 w-[2px] bg-[#FFD700] transition-all group-hover:w-full"></span>
-								<span className="relative text-xl font-semibold text-[#FFD700] transition-colors group-hover:text-black">
-									Checkout
-								</span>
-							</button>
+							<StripeForm ticketList = {numTickets} totalAmount={calculateTotalAmount()} buyer={user} eventName={eventName} eventImage={eventImage} />
 						</div>
 					</form>
 				</div>

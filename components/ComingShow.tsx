@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import CheckoutModal from "./CheckoutModal";
+
 import LoginModal from "./LoginModal";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
@@ -9,6 +9,7 @@ const ComingShow = () => {
 	const [isLoginModalOpen, setIsLoginModalOpen] = useState(false);
 	const router = useRouter();
 	const session = useSession();
+
 
 	const eventId = 1;
 
@@ -94,6 +95,7 @@ const ComingShow = () => {
 			</div>
 		</div>
 	);
+
 };
 
 export default ComingShow;
