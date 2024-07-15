@@ -3,6 +3,7 @@ import Modal from "@/utils/Modal";
 import { signIn, useSession } from "next-auth/react";
 import * as z from "zod";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 interface LoginModalProps {
 	isOpen: boolean;
@@ -28,7 +29,7 @@ const LoginModal = ({
 
 	const handleSignIn2 = async () => {
 		const result = await signIn("google", { callbackUrl: callBackUrl });
-  };
+	};
 
 	const handleSignIn = async (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
@@ -93,13 +94,13 @@ const LoginModal = ({
 										/>
 									</svg>
 								</div>
-								<span className="ml-4">Sign Up with Google</span>
+								<span className="ml-4">Sign up with Google</span>
 							</button>
 						</div>
 
 						<div className="my-6 border-b text-center">
 							<div className="leading-none px-2 inline-block text-sm text-gray-300 tracking-wide font-medium bg-black transform translate-y-1/2">
-								Or sign up with e-mail
+								Or Sign in with e-mail
 							</div>
 						</div>
 
@@ -143,9 +144,30 @@ const LoginModal = ({
 											r="4"
 										/>
 									</svg>
-									<span className="ml-3 text-black">Sign Up</span>
+									<span className="ml-3 text-black">Sign in</span>
 								</button>
 							</form>
+							<div className=" flex mt-2 ml-2">
+								<Link
+									href="#"
+									className="text-[#FFD700] text-xs hover:text-[#d1b202]"
+								>
+									Forgot your password?
+								</Link>
+							</div>
+							<div className="flex mx-auto mt-2 items-center justify-center ">
+								<Link
+									href="/api/sign-up"
+									className="flex flex-col"
+								>
+									<div className="mb-0 border-b text-center ">
+										<div className="leading-none px-2 inline-block text-sm text-gray-300 tracking-wide font-medium bg-black transform translate-y-1/2">
+											Don't have an account?
+										</div>
+									</div>
+									<p className="flex text-slate-300 mt-2 justify-center items-center align-center text-xs hover:text-[#FFD700] active:text-[#d1b202]">SIGN UP</p>
+								</Link>
+							</div>
 							<p className="mt-6 text-xs text-gray-600 text-center">
 								I agree to abide by templatana's{" "}
 								<a
