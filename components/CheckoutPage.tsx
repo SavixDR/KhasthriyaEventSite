@@ -4,7 +4,6 @@ import {
   useElements,
   PaymentElement,
 } from "@stripe/react-stripe-js";
-import Image from "next/image";
 import { User } from "@prisma/client";
 
 interface TicketPrices {
@@ -58,7 +57,7 @@ const CheckoutPage = ({ order }: { order: CheckoutOrderProps }) => {
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `http://www.localhost:3000/payment-success?order=${encodeURIComponent(
+        return_url: `http://localhost:3000/payment-success?order=${encodeURIComponent(
           JSON.stringify(order)
         )}`,
       },

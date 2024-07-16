@@ -1,7 +1,8 @@
 import Modal from "@/utils/Modal";
-import { TicketDetails } from "@prisma/client";
-import React, { useState } from "react";
+import { TicketDetails, User } from "@prisma/client";
+import React, { useEffect, useState } from "react";
 import StripeForm from "./StripeForm";
+import { Niconne } from "next/font/google";
 
 interface TicketPrices {
 	[key: string]: number;
@@ -18,6 +19,7 @@ interface CheckoutModalProps {
 
 const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName,eventImage }: CheckoutModalProps) => {
 
+	console.log("User: ", user);
 	const ticketPrices: TicketPrices = ticketDetails.reduce((acc, ticketDetail) => {
 		acc[ticketDetail.ticketType] = ticketDetail.ticketPrice;
 		return acc;
@@ -31,6 +33,34 @@ const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName,event
 		initialNumTicketsState
 	);
 
+	const [formData, setFormData] = useState({
+		username: user.username|| "",
+		email: user.email|| "",
+		nic: user.nic || "",
+		phoneNum: user.phoneNum || "",
+	})
+
+	useEffect(() => {
+		if (user) {
+			setFormData({
+				username: user.username || '',
+				email: user.email || '',
+				nic: user.nic || '',
+				phoneNum: user.phoneNum || ''
+			});
+		}
+	}, [user]);
+	
+
+	const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+		const { name, value } = e.target;
+		setFormData((prevState) => ({
+			...prevState,
+			[name]: value,
+		}));
+	};
+
+	// TODO : Add Following functions to the Utilities folder
 	const addTicket = (ticketType: string) => {
 		setNumTickets((prevState) => ({
 			...prevState,
@@ -111,6 +141,8 @@ const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName,event
 									name="username"
 									placeholder="Enter your username"
 									className="p-3 rounded-lg bg-[#333] text-white focus:outline-none focus:ring-1 focus:ring-[#ffd700]"
+									value={formData.username}
+									onChange={handleInputChange}
 								/>
 							</div>
 							<div className="flex flex-col">
@@ -126,6 +158,8 @@ const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName,event
 									name="email"
 									placeholder="Enter your email"
 									className="p-3 rounded-lg bg-[#333] text-white focus:outline-none focus:ring-1 focus:ring-[#ffd700]"
+									value={formData.email}
+									onChange={handleInputChange}
 								/>
 							</div>
 							<div className="flex flex-col">
@@ -141,6 +175,8 @@ const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName,event
 									name="nic"
 									placeholder="Enter your NIC"
 									className="p-3 rounded-lg bg-[#333] text-white focus:outline-none focus:ring-1 focus:ring-[#ffd700]"
+									value={formData.nic}
+									onChange={handleInputChange}
 								/>
 							</div>
 							<div className="flex flex-col">
@@ -156,6 +192,8 @@ const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName,event
 									name="telno"
 									placeholder="Enter your telephone number"
 									className="p-3 rounded-lg bg-[#333] text-white focus:outline-none focus:ring-1 focus:ring-[#ffd700]"
+									value={formData.phoneNum}
+									onChange={handleInputChange}
 								/>
 							</div>
 						</div>
@@ -183,7 +221,7 @@ const CheckoutModal = ({ isOpen, handleClose, ticketDetails,user,eventName,event
 						</table>
 
 						<div className="flex justify-center">
-							<StripeForm ticketList = {numTickets} totalAmount={calculateTotalAmount()} buyer={user} eventName={eventName} eventImage={eventImage} />
+							{/* <StripeForm ticketList = {numTickets} totalAmount={calculateTotalAmount()} buyer={user} eventName={eventName} eventImage={eventImage} /> */}
 						</div>
 					</form>
 				</div>

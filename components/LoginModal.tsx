@@ -151,6 +151,7 @@ const LoginModal = ({
 								<Link
 									href="#"
 									className="text-[#FFD700] text-xs hover:text-[#d1b202]"
+									onClick={() => signIn("email", { callbackUrl: callBackUrl })}
 								>
 									Forgot your password?
 								</Link>

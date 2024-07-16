@@ -27,6 +27,7 @@ export const options: NextAuthOptions = {
 					email: profile.email,
 					image: profile.picture,
 					nic: "",
+					phoneNum: "",
 				};
 			},
 		}),
@@ -92,6 +93,7 @@ export const options: NextAuthOptions = {
 					nic: existingUser?.nic ?? "",
 					email: existingUser?.email ?? "",
 					image: existingUser?.image ?? "",
+					phoneNum: existingUser?.phoneNumber ?? "",
 				};
 			},
 		}),
@@ -184,6 +186,7 @@ export const options: NextAuthOptions = {
 							image: user.image,
 							nic: user.nic ? user.nic : "",
 							password: "",
+							phoneNumber: "",
 						},
 					});
 				}
@@ -194,6 +197,7 @@ export const options: NextAuthOptions = {
 					username: exisitingUser?.username,
 					nic: exisitingUser?.nic,
 					image: exisitingUser?.image,
+					phoneNum: exisitingUser?.phoneNumber,
 				};
 			}
 			return token;
@@ -207,6 +211,7 @@ export const options: NextAuthOptions = {
 					id: token.userId,
 					username: token.username,
 					nic: token.nic,
+					phoneNum: token.phoneNum,
 				},
 			};
 		},

@@ -54,11 +54,17 @@ model User {
   id        String      @id @default(uuid())
   email     String      @unique
   username  String      @unique
-  NIC       String      @unique
+  nic       String      @map("NIC")
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
-  password  String
+  password  String?
+  phoneNumber String?
+  image     String?
+  verification_token String? @unique
+  verified  Boolean     @default(false)
   eventUser eventUser[]
+  session   Session[]
+  account   Account[]
 
 }
 

@@ -3,7 +3,6 @@ import Countdown from "../../../../../components/Countdown/Countdown";
 import { getServerSession } from "next-auth/next";
 import { options } from "@/app/api/auth/[...nextauth]/options";
 import CheckoutButton from "@/components/Buttons/CheckoutButton";
-import EventHero from "./eventHero";
 import { Session } from "next-auth";
 import { db } from "@/lib/db";
 import Hero from "@/components/Hero";
@@ -19,7 +18,7 @@ const Booking = async ({ params }: { params: { eventId: string } }) => {
 		where: { eventId: parseInt(params.eventId, 10) },
 		include: { artists: true, ticketDetails: true },
 	});
-	// console.log("Event Retrieved from DB", event);
+	console.log("Event Retrieved from DB", event);
 
   if (!event) {
     return <div className="text-white bg-black">Event not found</div>;
