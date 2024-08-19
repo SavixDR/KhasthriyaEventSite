@@ -38,6 +38,7 @@ export async function POST(req: Request) {
 		});
 
 		if (existingUserByEmail) {
+			//If user have created an account using other sign in methods
 			if (existingUserByEmail.password === null) {
 				const hashedPassword = await hash(password, 10);
 				const newUser = await db.user.update({
@@ -67,6 +68,12 @@ export async function POST(req: Request) {
 		}
 
 		const hashedPassword = await hash(password, 10);
+		
+
+
+
+		const emailVerificationToken = generateSecureToken();
+
 		const newUser = await db.user.create({
 			data: {
 				username,
@@ -74,22 +81,11 @@ export async function POST(req: Request) {
 				nic: nic,
 				password: hashedPassword,
 				phoneNumber: phoneNum,
+				verification_token: emailVerificationToken,
 			},
 		});
 
-
-
-		const emailVerificationToken = generateSecureToken();
-
-		await db.user.update({
-			where: {
-				id: newUser.id,
-			},
-			data: {
-				id: emailVerificationToken,
-			},
-		});
-
+		//Send email verification email
 		await sendEmail({
 			to: [newUser.email],
 			subject: "Verify your Email Address",

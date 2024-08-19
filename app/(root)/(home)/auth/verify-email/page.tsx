@@ -1,6 +1,6 @@
 import Link from "next/link";
 import {db} from "../../../../../lib/db";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/Card';
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 
 import EmailCheckIcon from "../../../../../components/icon/email-check";
 

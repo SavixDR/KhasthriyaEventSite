@@ -61,7 +61,8 @@ model User {
   phoneNumber String?
   image     String?
   verification_token String? @unique
-  verified  Boolean     @default(false)
+  verified  Boolean   @default(false)
+  emailVerified Boolean? @default(false)
   eventUser eventUser[]
   session   Session[]
   account   Account[]
