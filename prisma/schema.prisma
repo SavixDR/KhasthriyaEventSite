@@ -8,20 +8,20 @@ datasource db {
 }
 
 model Account {
-  id                String    @id @default(cuid())
-  userId            String    @map("user_id")
+  id                String   @id @default(cuid())
+  userId            String   @map("user_id")
   type              String?
   provider          String
-  providerAccountId String    @map("provider_account_id")
+  providerAccountId String   @map("provider_account_id")
   token_type        String?
   refresh_token     String?
   access_token      String?
   scope             String?
   id_token          String?
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
   expires_at        BigInt?
-  user              User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
   @@map("accounts")
@@ -50,22 +50,21 @@ model VerificationRequest {
 }
 
 model User {
-
-  id        String      @id @default(uuid())
-  email     String      @unique
-  username  String      @unique
-  nic       String      @map("NIC")
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
-  password  String?
-  phoneNumber String?
-  image     String?
-  verification_token String? @unique
-  verified  Boolean     @default(false)
-  eventUser eventUser[]
-  session   Session[]
-  account   Account[]
-
+  id                 String      @id @default(uuid())
+  email              String      @unique
+  username           String      @unique
+  nic                String      @map("NIC")
+  createdAt          DateTime    @default(now())
+  updatedAt          DateTime    @updatedAt
+  password           String?
+  image              String?
+  phoneNumber        String?
+  verification_token String?     @unique
+  verified           Boolean     @default(false)
+  emailVerified      Boolean?    @default(false)
+  session            Session[]
+  account            Account[]
+  eventUser          eventUser[]
 }
 
 model Event {

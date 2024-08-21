@@ -20,14 +20,15 @@ export const options: NextAuthOptions = {
 			clientId: process.env.GOOGLE_CLIENT_ID ?? "",
 			clientSecret: process.env.GOOGLE_CLIENT_SECRET ?? "",
 			profile(profile) {
-				// console.log("Google profile:", profile);
+				console.log("Google profile:", profile);
 				return {
 					id: profile.sub,
 					username: profile.name,
 					email: profile.email,
 					image: profile.picture,
 					nic: "",
-					phoneNum: "",
+					phoneNumber: "",
+					verified: profile.email_verified,
 				};
 			},
 		}),
@@ -93,7 +94,8 @@ export const options: NextAuthOptions = {
 					nic: existingUser?.nic ?? "",
 					email: existingUser?.email ?? "",
 					image: existingUser?.image ?? "",
-					phoneNum: existingUser?.phoneNumber ?? "",
+					phoneNumber: existingUser?.phoneNumber ?? "",
+					verified: existingUser?.verified ?? false,
 				};
 			},
 		}),
@@ -103,12 +105,12 @@ export const options: NextAuthOptions = {
 		async signIn({ user, account, profile }) {
 			console.log("Sign In Callback", user, account, profile);
 			if (account?.provider == "google") {
-        
 				const existingUser = await db.user.findUnique({
 					where: { email: user.email ? user.email : "" },
 				});
 
 				if (existingUser) {
+					console.log("User Exists: ", existingUser);
 					const accountLinked = await db.account.findUnique({
 						where: {
 							provider_providerAccountId: {
@@ -150,12 +152,24 @@ export const options: NextAuthOptions = {
 						await db.user.update({
 							data: {
 								image: user?.image,
+								verified: user?.verified,
 							},
 							where: { id: existingUser.id },
 						});
 					}
 				}
-
+				console.log('User : ', user);
+				// db.user.create({
+				// 	data: {
+				// 		email: user.email ? user.email : "",
+				// 		username: user.username,
+				// 		image: user.image,
+				// 		nic: user.nic ? user.nic : "",
+				// 		password: "",
+				// 		phoneNumber: "",
+				// 		verified: true,
+				// 	},
+				// })
 				return true;
 			}
 			console.log("Sign in successfull.");
@@ -187,9 +201,11 @@ export const options: NextAuthOptions = {
 							nic: user.nic ? user.nic : "",
 							password: "",
 							phoneNumber: "",
+							verified: user.verified? user.verified : true,
 						},
 					});
 				}
+				console.log("New User Created: ", exisitingUser);
 
 				return {
 					...token,
@@ -197,13 +213,15 @@ export const options: NextAuthOptions = {
 					username: exisitingUser?.username,
 					nic: exisitingUser?.nic,
 					image: exisitingUser?.image,
-					phoneNum: exisitingUser?.phoneNumber,
+					phoneNumber: exisitingUser?.phoneNumber,
+					verified: exisitingUser?.verified,
 				};
 			}
 			return token;
 		},
 
 		async session({ session, token }) {
+			console.log("Session callback: ", session, token);
 			return {
 				...session,
 				user: {
@@ -211,7 +229,8 @@ export const options: NextAuthOptions = {
 					id: token.userId,
 					username: token.username,
 					nic: token.nic,
-					phoneNum: token.phoneNum,
+					phoneNumber: token.phoneNumber,
+					verified: token.verified,
 				},
 			};
 		},
